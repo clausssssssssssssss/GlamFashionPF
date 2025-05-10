@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
+import Nav from "./components/Nav";
 
-function App() {
-  const [count, setCount] = useState(0)
+// Páginas
+import PrimeraVista from './pages/PrimeraVista';
+import IniciarSesion from './pages/IniciarSesion';
+import CrearCuenta from './pages/Crearcuenta';
+import EditarPerfil from './pages/EditarPerfil';
+import Inicio from './pages/Inicio';
+import MetododePago from './pages/MetododePago';
+import Perfil from './pages/Perfil';
+import Vestidos from './pages/Vestidos';
+import QuienesSomos from './pages/QuienesSomos';
+import Terminosycondiciones from './pages/Terminosycondiciones';
+import CarritoDeCompras from './pages/Carritodecompras';
+
+function App() { 
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Router>
+      <Routes>
+        <Route path="/PrimeraVista" element={<PrimeraVista />} />
+        <Route path="/IniciarSesion" element={<IniciarSesion />} />
+        <Route path="/CrearCuenta" element={<CrearCuenta />} />
+        <Route path="/EditarPerfil" element={<EditarPerfil />} />
+        <Route path="/Inicio" element={<Inicio />} />
+        <Route path="/MetododePago" element={<MetododePago />} />
+        <Route path="/Perfil" element={<Perfil />} />
+        <Route path="/Vestidos" element={<Vestidos />} />
+        <Route path="/QuienesSomos" element={<QuienesSomos />} />
+        <Route path="/Terminosycondiciones" element={<Terminosycondiciones />} />
+        <Route path="/Carritodecompras" element={<CarritoDeCompras />} />
+      </Routes>
+      </Router>
     </>
-  )
-}
+  );
+};
 
-export default App
+
+export default App;
