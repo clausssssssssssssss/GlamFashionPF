@@ -3,33 +3,37 @@ import { Link } from "react-router-dom";
 
 const QuienesSomos = () => {
   return (
-    <div className="min-h-screen bg-white flex flex-col md:flex-row p-6">
-      {/* Sección izquierda: texto */}
-      <div className="md:w-1/2 w-full p-6">
-        <div className="mb-4">
-          <Link to="/Inicio" className="text-sm text-black underline hover:text-gray-600">
-            Regresar
-          </Link>
-        </div>
-
-        <h2 className="text-center font-semibold tracking-widest mb-4 text-lg text-black">
-          QUIENES SOMOS
-        </h2>
-
-        <p className="text-center text-3xl  text-black">
-          GLAMFASHION es una tienda online femenina la cual busca crear una experiencia única
-          a nuestras usuarias, brindando atención personalizada, ropa de la más alta calidad
-          y sobre todo exclusividad. Nuestro objetivo es que nuestras usuarias tengan una
-          experiencia online atractiva y eficaz en la compra de artículos.
-        </p>
+    <div className="min-h-screen flex flex-col md:flex-row bg-white relative">
+      {/* Regresar en la esquina superior izquierda */}
+      <div className="absolute top-6 left-6">
+        <Link
+          to="/PrimeraVista"
+          className="text-xs underline text-black hover:text-gray-600"
+        >
+          Regresar
+        </Link>
       </div>
 
-      {/* Sección derecha: imagen */}
-      <div className="md:w-1/2 w-full p-10 text-black">
+      {/* Columna izquierda: texto */}
+      <div className="w-full md:w-1/2 flex flex-col justify-center px-8 pt-20">
+        <div className="w-full max-w-md mx-auto">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-black mb-4">
+           ABOUT US
+          </h2>
+
+          <p className="max-w-xl text-sm leading-relaxed text-left space-y-2 mb-10">
+            <strong>GLAMFASHION</strong> is an online women's store that seeks to create a unique experience for our users, providing personalized service, the highest quality clothing, and, above all, exclusivity.
+            Our goal is for our users to have an engaging and effective online shopping experience..
+          </p>
+        </div>
+      </div>
+
+      {/* Columna derecha: imagen */}
+      <div className="w-full md:w-1/2 h-screen">
         <img
           src="/images/Quienessomos.jpg"
           alt="Modelo Glamfashion"
-          className="w-full h-auto object-cover"
+          className="w-full h-full object-cover"
         />
       </div>
     </div>

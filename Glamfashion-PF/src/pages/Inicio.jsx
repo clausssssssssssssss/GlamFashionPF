@@ -8,11 +8,11 @@ const Inicio = () => {
     <div className="min-h-screen bg-black text-white relative">
       {/* Header superior */}
       <div className="absolute top-6 right-10 z-20 flex gap-6 text-xs uppercase tracking-widest">
-        <Link to="/Carritodecompras" className="hover:underline">Shop Car</Link>
-        <Link to="/TerminosyCondiciones" className="hover:underline">Términos y Condiciones</Link>
-        <Link to="/QuienesSomos" className="hover:underline">Sobre Nosotros</Link>
-        <Link to="/Perfil" className="hover:underline">Profile</Link>
-        <Link to="/PrimeraVista" className="hover:underline">Inicio</Link>
+        <Link to="/Carritodecompras" className="hover:underline">SHOP CAR</Link>
+        <Link to="/TerminosyCondiciones" className="hover:underline">TERMNS AND CONDICIONS</Link>
+        <Link to="/QuienesSomos" className="hover:underline">ABOUT US</Link>
+        <Link to="/Perfil" className="hover:underline">PROFILE</Link>
+        <Link to="/PrimeraVista" className="hover:underline">START</Link>
       </div>
 
       {/* Icono ☰ oculto cuando menú está abierto */}
