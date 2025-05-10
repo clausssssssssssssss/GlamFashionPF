@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
-import Nav from "./components/Nav";
 
 // Páginas
+
 import PrimerUso from './pages/PrimerUso';
 import LoginAdmin from './pages/LoginAdmin';
 import RecuperarContraseña1 from './pages/RecuperarContraseña1';
@@ -18,12 +18,13 @@ import Administradores from './pages/Administradores';
 import PerfilAdmin from './pages/PerfilAdmin';
 import EditarPerfilAdmin from './pages/EditarPerfilAdmin';
 
-function App() { 
+const App = () => { 
 
   return (
     <>
       <Router>
       <Routes>
+        <Route path="/" element={<PrimerUso />} />
         <Route path="/PrimerUso" element={<PrimerUso />} />
         <Route path="/LoginAdmin" element={<LoginAdmin />} />
         <Route path="/RecuperarContraseña1" element={<RecuperarContraseña1 />} />

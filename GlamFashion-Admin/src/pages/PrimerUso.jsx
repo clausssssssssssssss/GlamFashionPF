@@ -1,104 +1,93 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-const Register = () => {
-  const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    password: '',
-    email: '',
-    phone: ''
-  });
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Aquí puedes hacer tu petición a la API o validación
-    console.log("Datos del formulario:", form);
-  };
-
+const PrimerUso = () => {
+    console.log("Renderizando PrimerUso");
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-white">
-      {/* Formulario */}
-      <div className="md:w-1/2 w-full p-10 flex flex-col justify-center">
-        <h1 className="text-4xl font-bold mb-2 text-black">GLAMFASHION</h1>
-        <h2 className="text-xl mb-6 font-semibold text-gray-700">Create Your Account</h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="firstName"
-            placeholder="First Name"
-            value={form.firstName}
-            onChange={handleChange}
-            className="w-full border border-gray-300 px-4 py-2 rounded"
-            required
-          />
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            value={form.lastName}
-            onChange={handleChange}
-            className="w-full border border-gray-300 px-4 py-2 rounded"
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            className="w-full border border-gray-300 px-4 py-2 rounded"
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={form.email}
-            onChange={handleChange}
-            className="w-full border border-gray-300 px-4 py-2 rounded"
-            required
-          />
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Phone Number"
-            value={form.phone}
-            onChange={handleChange}
-            className="w-full border border-gray-300 px-4 py-2 rounded"
-            required
-          />
-          <button type="submit" className="w-full bg-black text-white py-2 rounded hover:bg-gray-800">
-            Sign Up
-          </button>
-        </form>
-
-        <p className="mt-4 text-sm text-gray-600 text-center">
-          Already have an account?{" "}
-          <Link to="/login" className="underline text-black hover:text-gray-800">
-            Log in
-          </Link>
-        </p>
-      </div>
-
-      {/* Imagen derecha */}
-      <div className="md:w-1/2 hidden md:block">
+    <div className="min-h-screen flex flex-col md:flex-row">
+      {/* Imagen lateral */}
+      <div className="w-full md:w-1/2 h-64 md:h-screen">
         <img
-          src="/path-to-your-image.jpg"
-          alt="Fashion Visual"
+          src="/images/Primeruso-pica.png" 
+          alt="Modelo Glamfashion"
           className="w-full h-full object-cover"
         />
+      </div>
+
+      {/* Formulario */}
+      <div className="w-full md:w-1/2 h-auto md:h-screen flex items-center justify-center p-6 md:p-20">
+        <div className="w-full max-w-sm">
+          <h2 className="text-3xl font-bold mb-4 tracking-widest text-center md:text-left">
+            GLAMFASHION
+          </h2>
+          <h3 className="text-lg font-semibold mb-6 uppercase text-center md:text-left">
+            Create Account
+          </h3>
+
+          <form className="space-y-4">
+            <div>
+              <label className="text-sm uppercase">First Name</label>
+              <input
+                type="text"
+                className="w-full border-b border-black focus:outline-none p-2"
+                placeholder="e.g. Claudia"
+              />
+            </div>
+            <div>
+              <label className="text-sm uppercase">Last Name</label>
+              <input
+                type="text"
+                className="w-full border-b border-black focus:outline-none p-2"
+                placeholder="e.g. Hernández"
+              />
+            </div>
+            <div>
+              <label className="text-sm uppercase">Email</label>
+              <input
+                type="email"
+                className="w-full border-b border-black focus:outline-none p-2"
+                placeholder="example@email.com"
+              />
+            </div>
+            <div>
+              <label className="text-sm uppercase">Phone Number</label>
+              <input
+                type="tel"
+                className="w-full border-b border-black focus:outline-none p-2"
+                placeholder="+503 7000 0000"
+              />
+            </div>
+            <div>
+              <label className="text-sm uppercase">Password</label>
+              <input
+                type="password"
+                className="w-full border-b border-black focus:outline-none p-2"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <Link to="/Inicio">
+              <button
+                type="button"
+                className="w-full bg-black text-white py-2 font-semibold uppercase rounded-full"
+              >
+                Register
+              </button>
+            </Link>
+          </form>
+
+          <div className="mt-6 text-center text-sm text-gray-600">
+            Already have an account?
+            <Link to="/IniciarSesion" className="ml-2">
+              <button className="border border-black py-1 px-6 rounded-full font-semibold hover:bg-black hover:text-white transition-colors">
+                LOGIN
+              </button>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Register;
+export default PrimerUso;
