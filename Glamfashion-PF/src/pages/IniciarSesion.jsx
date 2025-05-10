@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 const IniciarSesion = () => {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-     <div className="hidden md:flex w-full md:w-1/2 items-center justify-center h-auto">
-  <img
-    src="/images/IniciarSesion.jpg"
-    alt="Modelo Glamfashion"
-    className="h-[600px] object-contain"
-  />
-</div>
+      {/* Imagen lateral */}
+      <div className="w-full md:w-1/2 h-64 md:h-screen">
+        <img
+          src="/images/IniciarSesion.jpg"
+          alt="Modelo Glamfashion"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       {/* Formulario */}
       <div className="w-full md:w-1/2 h-auto md:h-screen flex items-center justify-center p-6 md:p-20">
@@ -48,16 +49,16 @@ const IniciarSesion = () => {
                 type="button"
                 className="w-full bg-black text-white py-2 font-semibold uppercase rounded-full"
               >
-                Iniciar Sesión
+                LOGIN
               </button>
             </Link>
           </form>
 
           <div className="mt-6 text-center text-sm text-gray-600">
-            ¿No tienes cuenta?
+            Don't have an account?
             <Link to="/Crearcuenta" className="ml-2">
-              <button className="border border-black px-4 py-1 mt-2 font-semibold uppercase rounded-full">
-                Regístrate
+              <button className="border border-black py-1 px-6 rounded-full font-semibold hover:bg-black hover:text-white transition-colors">
+                REGISTER
               </button>
             </Link>
           </div>

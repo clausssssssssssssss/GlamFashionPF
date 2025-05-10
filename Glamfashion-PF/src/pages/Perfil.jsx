@@ -12,10 +12,19 @@ const Perfil = () => {
 
   return (
     <div className="min-h-screen bg-white p-8">
-      {/* Botón Regresar */}
-      <div className="mb-4">
-        <Link to="/inicio" className="text-sm text-black underline hover:text-gray-600">
-          Regresar
+      {/* Encabezado superior: Go back + Edit profile */}
+      <div className="flex justify-between items-center mb-4">
+        <Link
+          to="/inicio"
+          className="text-sm underline text-black hover:text-gray-600 transition-colors"
+        >
+          Go back
+        </Link>
+
+        <Link to="/EditarPerfil">
+          <button className="text-sm underline text-black hover:text-gray-600 transition-colors">
+            EDIT PROFILE
+          </button>
         </Link>
       </div>
 
@@ -27,8 +36,10 @@ const Perfil = () => {
 
       {/* Favoritos */}
       <div className="mt-10">
-        <h3 className="text-sm text-black text-center mt-2 font-semiboldtext-lg font-semibold mb-4 tracking-widest">MIS FAVORITOS</h3>
-        <div className="flex gap-6 flex-wrap">
+        <h3 className="text-sm text-black text-center font-semibold text-lg mb-4 tracking-widest">
+          MIS FAVORITOS
+        </h3>
+        <div className="flex gap-6 flex-wrap justify-center">
           {productosFavoritos.map((producto, index) => (
             <CardProducto
               key={index}

@@ -21,7 +21,7 @@ function App() {
     <>
       <Router>
       <Routes>
-        <Route path="/PrimeraVista" element={<PrimeraVista />} />
+        <Route path="/" element={<PrimeraVista />} />
         <Route path="/IniciarSesion" element={<IniciarSesion />} />
         <Route path="/CrearCuenta" element={<CrearCuenta />} />
         <Route path="/EditarPerfil" element={<EditarPerfil />} />
