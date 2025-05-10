@@ -15,6 +15,17 @@ const MetodoDePago = () => {
       {/* Header */}
       <h2 className="text-2xl font-bold mb-4 tracking-widest text-black">SHOP CAR</h2>
 
+      <div className="absolute top-2 right-2 z-10">
+  <Link
+    to="/Inicio"
+    className="text-sm text-black underline hover:text-gray-600"
+  >
+    Go back
+  </Link>
+</div>
+
+
+
       {/* Productos */}
       <div className="flex gap-6 flex-wrap mb-10">
         {productos.map((item, index) => (
@@ -27,18 +38,18 @@ const MetodoDePago = () => {
         {/* Detalles */}
         <div className="space-y-4 w-full md:w-1/2">
           <h3 className="text-lg font-bold tracking-widest">DETAILS</h3>
-          <p>Total: <strong>$189.99</strong></p>
-          <p>Dirección de envío: <strong>Ricaldone</strong></p>
-          <p>Phone: <strong>82838389</strong></p>
+          <p>TOTAL: <strong>$189.99</strong></p>
+          <p>MAILING ADDRESS: <strong>Ricaldone</strong></p>
+          <p>PHONE: <strong>82838389</strong></p>
 
           <button className="bg-black text-white px-8 py-2 rounded-full uppercase font-semibold">
-            Pagar
+            PAY
           </button>
         </div>
 
         {/* Método de pago */}
         <div className="space-y-4 w-full md:w-1/2">
-          <h3 className="text-lg font-bold tracking-widest">MIS MÉTODOS DE PAGO</h3>
+          <h3 className="text-lg font-bold tracking-widest">MY PAYMENT METHODS</h3>
           <div className="bg-gray-100 p-4 rounded-md shadow-sm text-sm">
             <p className="text-base">1123 4567 7880 8900</p>
             <p>Claudia María Ortega</p>

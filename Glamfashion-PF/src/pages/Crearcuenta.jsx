@@ -25,32 +25,32 @@ const CrearCuenta = () => {
           <form className="space-y-4" onSubmit={handleSubmit}>
             <input
               type="text"
-              placeholder="Nombre"
+              placeholder="NAME"
               className="w-full border-b border-black p-2 focus:outline-none"
             />
             <input
               type="text"
-              placeholder="Apellido"
+              placeholder="LAST NAME"
               className="w-full border-b border-black p-2 focus:outline-none"
             />
             <input
               type="date"
-              placeholder="Fecha de nacimiento"
+              placeholder="BIRTHDAY"
               className="w-full border-b border-black p-2 focus:outline-none"
             />
             <input
               type="email"
-              placeholder="Email"
+              placeholder="EMAIL"
               className="w-full border-b border-black p-2 focus:outline-none"
             />
             <input
               type="password"
-              placeholder="Contraseña"
+              placeholder="PASSWORD"
               className="w-full border-b border-black p-2 focus:outline-none"
             />
             <input
               type="text"
-              placeholder="Dirección"
+              placeholder="ADDRESS"
               className="w-full border-b border-black p-2 focus:outline-none"
             />
 
@@ -58,7 +58,7 @@ const CrearCuenta = () => {
               type="submit"
               className="w-full bg-black text-white py-2 font-semibold uppercase rounded-full"
             >
-              Registrate
+              REGISTER
             </button>
           </form>
 

@@ -19,7 +19,7 @@ const Carritodecompras = () => {
       {/* Botón Regresar */}
       <div className="flex justify-end mb-4">
         <Link to="/inicio" className="text-sm text-black underline hover:text-gray-600">
-          Regresar
+          Go back
         </Link>
       </div>
 
@@ -32,14 +32,14 @@ const Carritodecompras = () => {
 
       {/* Botón de pago */}
       <div className="text-center mb-10">
-      <button><Link to="/MetododePago" className="text-sm text-black underline hover:text-gray-600">
-          Ir a pagar
+      <button><Link to="/MetododePago" className="border border-black py-1 px-6 rounded-full font-semibold hover:bg-black hover:text-white transition-colors">
+          GO PAY
         </Link>
         </button>
       </div>
 
       {/* Más artículos */}
-      <h3 className="text-xl font-bold mb-4 tracking-widest">MAS ARTICULOS</h3>
+      <h3 className="text-xl font-bold mb-4 tracking-widest">MORE PRODUCTS      </h3>
       <div className="flex gap-6">
         {sugerencias.map((item, index) => (
           <CardProducto key={index} {...item} />

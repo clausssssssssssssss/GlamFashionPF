@@ -10,7 +10,7 @@ const EditarPerfil = () => {
           to="/Inicio"
           className="text-sm text-black underline hover:text-gray-600"
         >
-          Regresar
+          Go back
         </Link>
       </div>
 
@@ -23,9 +23,9 @@ const EditarPerfil = () => {
       <div className="flex mt-10 gap-10 justify-center">
         {/* Formulario de datos */}
         <div className="space-y-4 w-72">
-          <input type="text" placeholder="NOMBRE" className="border-b w-full p-2" />
-          <input type="text" placeholder="APELLIDO" className="border-b w-full p-2" />
-          <input type="date" placeholder="FECHA DE NACIMIENTO" className="border-b w-full p-2" />
+          <input type="text" placeholder="NAME" className="border-b w-full p-2" />
+          <input type="text" placeholder="LAST NAME" className="border-b w-full p-2" />
+          <input type="date" placeholder="DATE" className="border-b w-full p-2" />
           <input type="email" placeholder="EMAIL" className="border-b w-full p-2" />
           <input type="password" placeholder="CONTRASEÑA" className="border-b w-full p-2" />
           <input type="text" placeholder="DIRECCIÓN" className="border-b w-full p-2" />
@@ -40,7 +40,7 @@ const EditarPerfil = () => {
             <p className="text-xs text-gray-500">Since: 12/24  Exp: 06/29</p>
           </div>
           <button className="border border-black px-4 py-2 font-semibold uppercase w-full">
-            Nuevo Método
+           NEW METHOD
           </button>
           <Link to="/Perfil" className="ml-2">
                         <button className="border border-black px-4 py-1 mt-2 font-semibold uppercase">

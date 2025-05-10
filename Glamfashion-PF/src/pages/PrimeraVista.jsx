@@ -17,7 +17,7 @@ const PrimeraVista = () => {
       {/* Imagen collage responsive */}
       <main className="flex-1 w-full">
         <img
-          src="/images/PrimerVistaCollage.png"
+          src="/images/PrimeraVistaCollage-pica.png"
           alt="Collage GlamFashion"
           className="w-full h-auto max-w-screen object-contain"
         />
