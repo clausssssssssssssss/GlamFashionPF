@@ -29,14 +29,11 @@ const Sidebar = () => {
         <Link to="/Categorias" className="flex items-center gap-3 hover:text-pink-600 transition">
            {open && "Categories"}
         </Link>
-        <Link to="/Clientes" className="flex items-center gap-3 hover:text-pink-600 transition">
-           {open && "Clients"}
+         <Link to="/Clientes" className="flex items-center gap-3 hover:text-pink-600 transition">
+           {open && "Customers"}
         </Link>
         <Link to="/Proveedores" className="flex items-center gap-3 hover:text-pink-600 transition">
           {open && "Suppliers"}
-        </Link>
-        <Link to="/Clientes" className="flex items-center gap-3 hover:text-pink-600 transition">
-           {open && "Customers"}
         </Link>
         <Link to="/Administradores" className="flex items-center gap-3 hover:text-pink-600 transition">
           {open && "Administrators"}
