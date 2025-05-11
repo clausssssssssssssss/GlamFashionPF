@@ -20,6 +20,9 @@ const Sidebar = () => {
       <Link to="/Dashboard" className="flex items-center gap-3 hover:text-pink-600 transition">
           {open && "Inicio"}
         </Link>
+        <Link to="/Productos" className="flex items-center gap-3 hover:text-pink-600 transition">
+           {open && "Agregar Productos"}
+        </Link>
         <Link to="/GraficosProductos" className="flex items-center gap-3 hover:text-pink-600 transition">
            {open && "Products"}
         </Link>
