@@ -24,12 +24,13 @@ const RecuperarContraseña1 = () => {
               />
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-black text-white py-2 font-semibold uppercase rounded hover:bg-gray-900 transition-colors"
-            >
-              Recover Password
-            </button>
+             <Link to="/RecuperarContraseña2">
+                      <button
+                      type="button"
+                      className="w-full bg-black text-white py-2 font-semibold uppercase rounded-full">
+                      RECOVER PASSWORD
+                      </button>
+            </Link>
           </form>
 
           <div className="mt-6 text-center text-xs text-gray-600">
