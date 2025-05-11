@@ -47,7 +47,8 @@ const Productos = () => {
       <Sidebar isOpen={sidebarOpen} toggle={() => setSidebarOpen(!sidebarOpen)} />
 
       <div className={`flex-1 ${sidebarOpen ? "ml-64" : "ml-16"} transition-all duration-300 p-4 md:p-8 bg-white min-h-screen`}>
-        <h2 className="text-3xl font-extrabold tracking-widest mb-6">PRODUCTS</h2>
+        <h1 className="text-2xl font-extrabold tracking-widest mb-4">GLAMFASHION</h1>
+        <h2 className="text-lg font-semibold uppercase mb-6">Categories</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Productos por mes */}
