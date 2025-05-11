@@ -66,19 +66,19 @@ const PrimerUso = () => {
               />
             </div>
 
-            <Link to="/Inicio">
+            <Link to="/Dashboard">
               <button
                 type="button"
                 className="w-full bg-black text-white py-2 font-semibold uppercase rounded-full"
               >
-                Register
+                REGISTER
               </button>
             </Link>
           </form>
 
           <div className="mt-6 text-center text-sm text-gray-600">
             Already have an account?
-            <Link to="/IniciarSesion" className="ml-2">
+            <Link to="/LoginAdmin" className="ml-2">
               <button className="border border-black py-1 px-6 rounded-full font-semibold hover:bg-black hover:text-white transition-colors">
                 LOGIN
               </button>
