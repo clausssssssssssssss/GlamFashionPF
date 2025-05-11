@@ -21,7 +21,7 @@ const PrimerUso = () => {
             GLAMFASHION
           </h2>
           <h3 className="text-lg font-semibold mb-6 uppercase text-center md:text-left">
-            Create Account
+            FIRST USE
           </h3>
 
           <form className="space-y-4">
