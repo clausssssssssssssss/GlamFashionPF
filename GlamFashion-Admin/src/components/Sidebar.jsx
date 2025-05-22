@@ -21,7 +21,7 @@ const Sidebar = () => {
           {open && "Inicio"}
         </Link>
         <Link to="/Productos" className="flex items-center gap-3 hover:text-pink-600 transition">
-           {open && "Agregar Productos"}
+           {open && "Add Products"}
         </Link>
         <Link to="/GraficosProductos" className="flex items-center gap-3 hover:text-pink-600 transition">
            {open && "Products"}

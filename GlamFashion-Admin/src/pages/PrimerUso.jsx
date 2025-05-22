@@ -1,14 +1,16 @@
 import React from "react";
+import { useRegisterUser } from "../hooks/useRegisterUser"; 
 import { Link } from "react-router-dom";
 
 const PrimerUso = () => {
-    console.log("Renderizando PrimerUso");
+  const { formData, handleChange, handleSubmit } = useRegisterUser();
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Imagen lateral */}
       <div className="w-full md:w-1/2 h-64 md:h-screen">
         <img
-          src="/images/Primeruso-pica.png" 
+          src="/images/Primeruso-pica.png"
           alt="Modelo Glamfashion"
           className="w-full h-full object-cover"
         />
@@ -24,10 +26,13 @@ const PrimerUso = () => {
             FIRST USE
           </h3>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="text-sm uppercase">First Name</label>
               <input
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 type="text"
                 className="w-full border-b border-black focus:outline-none p-2"
                 placeholder="e.g. Claudia"
@@ -36,6 +41,9 @@ const PrimerUso = () => {
             <div>
               <label className="text-sm uppercase">Last Name</label>
               <input
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
                 type="text"
                 className="w-full border-b border-black focus:outline-none p-2"
                 placeholder="e.g. Hernández"
@@ -44,6 +52,9 @@ const PrimerUso = () => {
             <div>
               <label className="text-sm uppercase">Email</label>
               <input
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 type="email"
                 className="w-full border-b border-black focus:outline-none p-2"
                 placeholder="example@email.com"
@@ -52,6 +63,9 @@ const PrimerUso = () => {
             <div>
               <label className="text-sm uppercase">Phone Number</label>
               <input
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 type="tel"
                 className="w-full border-b border-black focus:outline-none p-2"
                 placeholder="+503 7000 0000"
@@ -60,20 +74,21 @@ const PrimerUso = () => {
             <div>
               <label className="text-sm uppercase">Password</label>
               <input
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 type="password"
                 className="w-full border-b border-black focus:outline-none p-2"
                 placeholder="••••••••"
               />
             </div>
 
-            <Link to="/Dashboard">
-              <button
-                type="button"
-                className="w-full bg-black text-white py-2 font-semibold uppercase rounded-full"
-              >
-                REGISTER
-              </button>
-            </Link>
+            <button
+              type="submit"
+              className="w-full bg-black text-white py-2 font-semibold uppercase rounded-full"
+            >
+              REGISTER
+            </button>
           </form>
 
           <div className="mt-6 text-center text-sm text-gray-600">
