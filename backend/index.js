@@ -1,10 +1,4 @@
-/*
- * Este archivo es el punto de entrada principal para la aplicación.
- * Configura y ejecuta el servidor de Express, escuchando en el puerto especificado.
- *
- * Importa la configuración de la aplicación desde 'app.js' y establece la conexión a la base de datos desde 'database.js'.
- *
- */
+
 
 import app from "./app.js"; // Importa la configuración principal de la aplicación
 import "./database.js";

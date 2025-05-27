@@ -25,7 +25,11 @@ export const useLoginUser = () => {
       return;
     }
 
-    // Aquí iría una validación real si tuvieras backend
+    fetch("http://4000/api/login", {
+      method:'POST', 
+      body: {email, password}
+    })
+
     toast.success("Inicio de sesión exitoso.");
     navigate("/Dashboard");
   };
