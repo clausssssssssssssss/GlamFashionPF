@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import registerEmployeeController from "../controllers/registerEmployeeController.js";
+import registerEmployeeController from "../controllers/registerEmployeesController.js";
 
 router.route("/").post(registerEmployeeController.register);
 

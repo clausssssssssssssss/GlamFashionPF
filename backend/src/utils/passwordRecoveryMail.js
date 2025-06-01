@@ -30,6 +30,7 @@ const sendEmail = async (to, subject, text, html) => {
   }
 };
 
+// Función para generar el HTML del correo de recuperación de contraseña
 const HTMLRecoveryEmail = (code) => {
   return `
     <div style="font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 20px; border: 1px solid #ddd; border-radius: 10px; max-width: 600px; margin: 0 auto;">

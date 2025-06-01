@@ -3,12 +3,9 @@
     name
     desciption
     price
-    idCategory
     stock
     image
-    idBrand
-    idModel
-    discount
+    
  */
 
 import { Schema, model } from "mongoose";
@@ -33,11 +30,6 @@ const productsSchema = new Schema(
       required: true,
       min: 0,
     },
-    idCategory: {
-      type: Schema.Types.ObjectId,
-      ref: "Categories",
-      required: true,
-    },
     stock: {
       type: Number,
       default: 0,
@@ -46,18 +38,6 @@ const productsSchema = new Schema(
     image: {
       type: String,
       required: false,
-    },
-    imagePublicId: {
-      type: String,
-      required: false,
-    },
-    discount: {
-      type: Number,
-      default: 0,
-      min: 0,
-      max: 100,
-      min: [0, "El descuento no puede ser menor que 0"],
-      max: [100, "El descuento no puede exceder el 100%"],
     },
   },
   {

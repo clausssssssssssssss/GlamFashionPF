@@ -6,7 +6,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Páginas
-import PrimerUso from './pages/PrimerUso';
 import LoginAdmin from './pages/LoginAdmin';
 import RecuperarContraseña1 from './pages/RecuperarContraseña1';
 import RecuperarContraseña2 from './pages/RecuperarContraseña2';
@@ -26,8 +25,7 @@ const App = () => {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<PrimerUso />} />
-          <Route path="/PrimerUso" element={<PrimerUso />} />
+          <Route path="/" element={<LoginAdmin />} />
           <Route path="/LoginAdmin" element={<LoginAdmin />} />
           <Route path="/RecuperarContraseña1" element={<RecuperarContraseña1 />} />
           <Route path="/RecuperarContraseña2" element={<RecuperarContraseña2 />} />

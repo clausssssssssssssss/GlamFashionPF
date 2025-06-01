@@ -1,69 +1,47 @@
+// src/components/Productos/ProductsCard.jsx
 import React from "react";
-import Button from "../Button";
 
-const ProductCard = ({ product, deleteCategory, updateCategories }) => {
+const ProductsCard = ({ product, onEdit, onDelete }) => {
+  return (
+    <div className="bg-white border rounded-lg shadow-md overflow-hidden">
+      <div className="h-40 w-full bg-gray-200 flex items-center justify-center">
+        {product.image ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-full object-cover"
+          />
+        ) : (
+          <span className="text-gray-500">No Image</span>
+        )}
+      </div>
+      <div className="p-4">
+        <h3 className="font-semibold text-lg">{product.name}</h3>
+        <p className="text-sm text-gray-600 mb-2">{product.description}</p>
+        <p className="text-sm">
+          <span className="font-medium">Price:</span> ${product.price}
+        </p>
+        <p className="text-sm">
+          <span className="font-medium">Stock:</span> {product.stock}
+        </p>
 
-return (
-    <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
-        <div className="px-6 py-4">
-            {product.image && (
-                <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-48 object-cover mb-4 rounded"
-                />
-            )}
-            <h2 className="text-xl font-bold text-gray-800 mb-2">
-                {product.name}
-            </h2>
-            <p className="text-gray-500 mb-2">{product.description}</p>
-            <div className="mb-2">
-                <span className="font-semibold text-gray-700">Precio: </span>
-                <span>${product.price}</span>
-            </div>
-            <div className="mb-2">
-                <span className="font-semibold text-gray-700">Stock: </span>
-                <span>{product.stock}</span>
-            </div>
-            {product.discount > 0 && (
-                <div className="mb-2">
-                    <span className="font-semibold text-gray-700">Descuento: </span>
-                    <span>{product.discount}%</span>
-                </div>
-            )}
-            {product.brand && (
-                <div className="mb-2">
-                    <span className="font-semibold text-gray-700">Marca: </span>
-                    <span>{product.brand.name}</span>
-                </div>
-            )}
-            {product.model && (
-                <div className="mb-2">
-                    <span className="font-semibold text-gray-700">Modelo: </span>
-                    <span>{product.model.name}</span>
-                </div>
-            )}
-            {product.category && (
-                <div className="mb-2">
-                    <span className="font-semibold text-gray-700">Categoría: </span>
-                    <span>{product.category.name}</span>
-                </div>
-            )}
-            <div className="flex gap-2 mt-4">
-                <Button
-                    label={"Eliminar"}
-                    actionButton={() => deleteCategory(product._id)}
-                    colorClass={"danger"}
-                />
-                <Button
-                    label={"Editar Información"}
-                    actionButton={() => updateCategories(product)}
-                    colorClass={"warning"}
-                />
-            </div>
+        <div className="mt-4 flex justify-between">
+          <button
+            onClick={() => onEdit(product)}
+            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => onDelete(product._id)}
+            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+          >
+            Eliminate
+          </button>
         </div>
+      </div>
     </div>
-);
+  );
 };
 
-export default ProductCard;
+export default ProductsCard;

@@ -1,17 +1,26 @@
+/*
+    Campos:
+        name
+*/
+
 import { Schema, model } from "mongoose";
 
-const productModelSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    match: [/^[^\s].+[^\s]$/, "El nombre no puede tener solo espacios"],
+const modelsSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [
+        /^[A-Za-z\s]+$/,
+        "El nombre solo puede contener letras y espacios",
+      ], // Solo letras y espacios
+    },
   },
-  description: String,
-  idBrand: {
-    type: Schema.Types.ObjectId,
-    ref: "Brands",
-    required: true
+  {
+    timestamps: true,
+    strict: false,
   }
-}, { timestamps: true });
+);
 
-export default model("ProductModels", productModelSchema);
+export default model("Models", modelsSchema);
