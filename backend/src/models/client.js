@@ -1,10 +1,20 @@
 import { Schema, model } from "mongoose";
 
-const customerSchema = new Schema({
-  fullName: {
+const clientSchema = new Schema({
+  name: {
     type: String,
     required: true,
+    trim: true,
     match: [/^[^\s].+[^\s]$/, "Nombre inválido"],
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  birthday: {
+    type: Date,
+    required: true,
   },
   email: {
     type: String,
@@ -12,11 +22,14 @@ const customerSchema = new Schema({
     unique: true,
     match: [/.+@.+\..+/, "Correo inválido"],
   },
-  phone: {
+  password: {
     type: String,
     required: true,
   },
-  password: String,
+  address: {
+    type: String,
+    required: true,
+  },
 }, { timestamps: true });
 
-export default model("Customers", customerSchema);
+export default model("Client", clientSchema);

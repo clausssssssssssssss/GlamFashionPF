@@ -15,7 +15,7 @@ export const config = {
     expiresIn: process.env.JWT_EXPIRES_IN || "30d",
   },
   email: {
-    email: "noreply.glamfashion@gmail.com",
+    email: "glamfashioncar@gmail.com",
     password: process.env.APP_PASSWORD_EMAIL,
   },
   admin: {

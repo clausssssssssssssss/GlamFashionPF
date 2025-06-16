@@ -41,7 +41,6 @@ const Suppliers = () => {
     fetchSuppliers();
   }, []);
 
-  // ======== CREAR PROVEEDOR (esta función ya está bien como la tienes) ========
   const saveSupplier = async (newSupplier) => {
     if (!newSupplier.name) {
       toast.error("Por favor completa el nombre del proveedor");
@@ -90,7 +89,6 @@ const Suppliers = () => {
     }
   };
 
-  // ======== EDITAR (solo precarga los datos en el formulario) ========
   const updateSupplier = (supplier) => {
     setId(supplier._id);
     setName(supplier.name);
@@ -101,7 +99,6 @@ const Suppliers = () => {
     setActiveTab("form");
   };
 
-  // ======== GUARDAR CAMBIOS (update) ========
   const handleEdit = async (e) => {
     e.preventDefault();
     if (!name.trim()) {
@@ -149,9 +146,9 @@ const Suppliers = () => {
         <div className="mb-6">
           <button
             onClick={() => navigate("/dashboard")}
-            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+            className="px-4 py-2 bg-red-200 text-black rounded hover:bg-black-700 transition"
           >
-            ←
+            Regresar
           </button>
         </div>
 
@@ -191,8 +188,8 @@ const Suppliers = () => {
             <ListSuppliers
               suppliers={suppliers}
               loading={loading}
-              deleteSupplier={deleteSupplier}     // <— pasamos aquí
-              updateSupplier={updateSupplier}     // <— y aquí
+              deleteSupplier={deleteSupplier}     
+              updateSupplier={updateSupplier}    
             />
           ) : (
             <RegisterSuppliers

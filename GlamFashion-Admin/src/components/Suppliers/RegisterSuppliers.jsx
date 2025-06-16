@@ -1,10 +1,9 @@
-// src/components/Suppliers/RegisterSuppliers.jsx
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 export default function RegisterSuppliers({
-  id,                // nuevo: el id del proveedor (si editas)
-  name: initialName, // nuevo: el valor inicial de cada campo
+  id,                
+  name: initialName, 
   contactName: initialContact,
   phone: initialPhone,
   email: initialEmail,
@@ -14,14 +13,10 @@ export default function RegisterSuppliers({
   setPhone,
   setEmail,
   setAddress,
-  saveSupplier,      // función para POST
-  handleEdit,        // función para PUT
+  saveSupplier,      
+  handleEdit,        
 }) {
-  // 1) En lugar de tener estados locales aquí, usamos los que vienen de props.
-  //    Ya no hace falta hacer useState() en este componente, porque el padre
-  //    le pasa name/contactName/etc. como props y sus setters.
 
-  // 2) Lógica de submit: si hay ID, llamamos a handleEdit; si no, a saveSupplier.
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -33,7 +28,7 @@ export default function RegisterSuppliers({
 
     // Si id existe => editar
     if (id) {
-      handleEdit(e); // el padre (Suppliers.jsx) ya sabe cómo armar el PUT
+      handleEdit(e); 
       return;
     }
 

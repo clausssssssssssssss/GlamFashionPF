@@ -1,57 +1,132 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthClient } from "../hooks/useAuthClient";
 
-const EditarPerfil = () => {
+const CrearCuenta = () => {
+  const { register, loading, error } = useAuthClient();
+  const [form, setForm] = useState({
+    name: "",
+    lastName: "",
+    birthday: "",
+    email: "",
+    password: "",
+    address: "",
+  });
+
+  // Actualizamos cada campo
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // Ahora sí llamamos a register() en lugar de solo navigate
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await register(form);
+  };
+
   return (
-    <div className="min-h-screen bg-white p-8">
-      {/* Botón Regresar */}
-      <div className="mb-4">
-        <Link
-          to="/Inicio"
-          className="text-sm text-black underline hover:text-gray-600"
-        >
-          Go back
-        </Link>
-      </div>
+    <div className="min-h-screen flex flex-col md:flex-row bg-white text-black">
+      {/* Formulario */}
+      <div className="w-full md:w-1/2 flex justify-center items-center px-6 py-12 md:py-0">
+        <div className="w-full max-w-md">
+          <h2 className="text-3xl font-extrabold tracking-widest mb-2 text-center md:text-left">
+            GLAMFASHION
+          </h2>
+          <h3 className="text-lg font-semibold uppercase mb-6 text-center md:text-left">
+            REGÍSTRATE
+          </h3>
 
-      {/* Contenido de perfil */}
-      <div className="flex flex-col items-center">
-        <div className="w-32 h-32 bg-gray-300 rounded-full mb-4" />
-        <h2 className="text-xl font-semibold">Claudia Ortega</h2>
-      </div>
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <input
+              name="name"
+              type="text"
+              placeholder="NOMBRE"
+              value={form.name}
+              onChange={handleChange}
+              className="w-full border-b border-black p-2 focus:outline-none"
+              required
+            />
+            <input
+              name="lastName"
+              type="text"
+              placeholder="APELLIDO"
+              value={form.lastName}
+              onChange={handleChange}
+              className="w-full border-b border-black p-2 focus:outline-none"
+              required
+            />
+            <input
+              name="birthday"
+              type="date"
+              value={form.birthday}
+              onChange={handleChange}
+              className="w-full border-b border-black p-2 focus:outline-none"
+              required
+            />
+            <input
+              name="email"
+              type="email"
+              placeholder="EMAIL"
+              value={form.email}
+              onChange={handleChange}
+              className="w-full border-b border-black p-2 focus:outline-none"
+              required
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="CONTRASEÑA"
+              value={form.password}
+              onChange={handleChange}
+              className="w-full border-b border-black p-2 focus:outline-none"
+              required
+            />
+            <input
+              name="address"
+              type="text"
+              placeholder="DIRECCIÓN"
+              value={form.address}
+              onChange={handleChange}
+              className="w-full border-b border-black p-2 focus:outline-none"
+              required
+            />
 
-      <div className="flex mt-10 gap-10 justify-center">
-        {/* Formulario de datos */}
-        <div className="space-y-4 w-72">
-          <input type="text" placeholder="NAME" className="border-b w-full p-2" />
-          <input type="text" placeholder="LAST NAME" className="border-b w-full p-2" />
-          <input type="date" placeholder="DATE" className="border-b w-full p-2" />
-          <input type="email" placeholder="EMAIL" className="border-b w-full p-2" />
-          <input type="password" placeholder="CONTRASEÑA" className="border-b w-full p-2" />
-          <input type="text" placeholder="DIRECCIÓN" className="border-b w-full p-2" />
-        </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full bg-black text-white py-2 font-semibold uppercase rounded-full transition ${
+                loading ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800"
+              }`}
+            >
+              {loading ? "Registrando..." : "REGÍSTRATE"}
+            </button>
 
-        {/* Métodos de pago */}
-        <div className="space-y-4 w-72">
-          <h3 className="text-sm font-semibold uppercase text-center">Mis Métodos de Pago</h3>
-          <div className="bg-gray-100 p-4 rounded-md shadow-sm text-sm">
-            <p>1123 4567 7890 8900</p>
-            <p>Claudia María Ortega</p>
-            <p className="text-xs text-gray-500">Since: 12/24  Exp: 06/29</p>
+            {error && (
+              <p className="text-red-600 text-center mt-2">{error}</p>
+            )}
+          </form>
+
+          <div className="mt-6 flex justify-center items-center gap-4 text-sm text-gray-600">
+            <span>¿Ya tienes cuenta?</span>
+            <Link to="/IniciarSesion">
+              <button className="border border-black py-1 px-6 rounded-full font-semibold hover:bg-black hover:text-white transition-colors">
+                LOGIN
+              </button>
+            </Link>
           </div>
-          <button className="border border-black px-4 py-2 font-semibold uppercase w-full">
-           NEW METHOD
-          </button>
-          <Link to="/Perfil" className="ml-2">
-                        <button className="border border-black px-4 py-1 mt-2 font-semibold uppercase">
-                          Guardar
-                        </button>
-                      </Link>
-          
         </div>
+      </div>
+
+      {/* Imagen */}
+      <div className="w-full md:w-1/2 flex justify-center items-center px-6 py-6 md:py-0">
+        <img
+          src="/images/CrearCuenta.jpg"
+          alt="Modelo Glamfashion"
+          className="w-full max-w-[500px] h-auto object-contain"
+        />
       </div>
     </div>
   );
 };
 
-export default EditarPerfil;
+export default CrearCuenta;

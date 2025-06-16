@@ -38,7 +38,7 @@ const Productos = () => {
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h1 className="text-4xl font-extrabold mb-2">GLAMFASHION</h1>
         <h2 className="text-lg uppercase tracking-wider text-gray-600">
-          Dresses Collection
+          T-Shirts Collection
         </h2>
       </div>
 

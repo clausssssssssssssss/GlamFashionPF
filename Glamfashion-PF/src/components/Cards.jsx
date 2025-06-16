@@ -1,16 +1,22 @@
-//CardProducto.jsx
 import React from "react";
 
-const CardProducto = ({ titulo, precio, imagen }) => {
+const CardProducto = ({ imagen, titulo, precio }) => {
   return (
-    <div className="w-[140px] text-center">
-      <img
-        src={imagen}
-        alt={titulo}
-        className="w-full h-[180px] object-cover mb-2 shadow-md"
-      />
-      <h4 className="text-sm text-black text-center mt-2 font-semibold">{titulo}</h4>
-      <p className="text-sm text-black text-center mt-2 font-semibold">${precio}</p>
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
+      <div className="h-56 overflow-hidden">
+        <img
+          src={imagen}
+          alt={titulo}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="p-4">
+        <h3 className="text-xl font-semibold mb-2">{titulo}</h3>
+        <p className="text-gray-600 mb-4">${precio.toFixed(2)}</p>
+        <button className="w-full bg-black text-white py-2 rounded-full hover:bg-gray-800 transition-colors">
+          Ver más
+        </button>
+      </div>
     </div>
   );
 };

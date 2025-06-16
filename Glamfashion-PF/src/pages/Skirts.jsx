@@ -2,6 +2,7 @@ import React from "react";
 import CardProducto from "../components/Cards";
 import { Link } from "react-router-dom";
 
+
 const Productos = () => {
   const productos = [
     { titulo: "Vestido blanco", precio: 40, imagen: "/images/imgProducto1.jpg" },
@@ -38,7 +39,7 @@ const Productos = () => {
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h1 className="text-4xl font-extrabold mb-2">GLAMFASHION</h1>
         <h2 className="text-lg uppercase tracking-wider text-gray-600">
-          Dresses Collection
+          Skirts Collection
         </h2>
       </div>
 

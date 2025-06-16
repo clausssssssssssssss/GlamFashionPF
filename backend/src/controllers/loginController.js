@@ -1,82 +1,42 @@
-import clientsModel from "../models/client.js";
-import employeesModel from "../models/employee.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import Client from "../models/client.js";
 import { config } from "../config.js";
 
-const loginController = {};
-
-// CREATE: Login para clientes, empleados y administrador
-loginController.login = async (req, res) => {
-  const { email, password } = req.body;
-
-  // Validación de campos requeridos
-  if (!email || !password) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
+export const loginClient = async (req, res) => {
   try {
-    let userFound;
-    let userType;
-
-    // Verificar si es el administrador
-    if (email === config.admin.email && password === config.admin.password) {
-      userType = "admin";
-      userFound = { _id: "admin" };
-    } else {
-      // Buscar primero en la colección de empleados
-      userFound = await employeesModel.findOne({ email });
-      if (userFound) {
-        userType = "employee";
-        // Comparar las contraseñas de manera correcta (esperar el resultado de la comparación)
-        const isMatch = await bcrypt.compare(password, userFound.password);
-        if (!isMatch) {
-          return res.status(401).json({ message: "Invalid password" });
-        }
-      } else {
-        // Si no es un empleado, buscar en la colección de clientes
-        userFound = await clientsModel.findOne({ email });
-        if (userFound) {
-          userType = "client";
-          // Comparar las contraseñas de manera correcta (esperar el resultado de la comparación)
-          const isMatch = await bcrypt.compare(password, userFound.password);
-          if (!isMatch) {
-            return res.status(401).json({ message: "Invalid password" });
-          }
-        }
-      }
+    const { email, password } = req.body;
+    // 1) Validar
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email y contraseña son obligatorios" });
     }
-
-    // Si no se encuentra el usuario en ninguna colección (ni cliente ni empleado), devolver error
-    if (!userFound) {
-      console.log("No se encuentra en ninguna colección");
-      return res.status(404).json({ message: "User not found" });
+    // 2) Buscar cliente
+    const client = await Client.findOne({ email });
+    if (!client) {
+      return res.status(401).json({ message: "Email no registrado" });
     }
-
-    // Generar el token JWT
-    jwt.sign(
-      {
-        id: userFound._id,
-        userType,
+    // 3) Comparar contraseña
+    const valid = await bcrypt.compare(password, client.password);
+    if (!valid) {
+      return res.status(401).json({ message: "Contraseña incorrecta" });
+    }
+    // 4) Generar JWT
+    const payload = { userId: client._id, userType: "client" };
+    const token = jwt.sign(payload, config.jwt.secret, {
+      expiresIn: config.jwt.expiresIn,
+    });
+    // 5) Responder con token + datos mínimos
+    return res.status(200).json({
+      message: "Login exitoso",
+      token,
+      user: {
+        id: client._id,
+        name: client.name,
+        email: client.email,
       },
-      config.jwt.secret,
-      {
-        expiresIn: config.jwt.expiresIn,
-      },
-      (err, token) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({ message: "Error generating token" });
-        }
-
-        // Guardar el token en una cookie
-        res.cookie("authToken", token, { httpOnly: true });
-        res.status(200).json({ message: `${userType} login successful`, token });
-      }
-    );
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error", error: error.message });
+    console.error("Error en loginClient:", error);
+    return res.status(500).json({ message: "Error interno del servidor" });
   }
 };
-
-export default loginController;

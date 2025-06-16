@@ -1,48 +1,60 @@
+// src/pages/TerminosCondiciones.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
 const TerminosCondiciones = () => {
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col justify-center items-center px-6 py-12">
-      <h1 className="text-lg font-semibold tracking-[0.3em] uppercase mb-6 text-center">
-      T E R M I N S A N D C O N D I C I O N S
-      </h1>
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col items-center py-12 px-6">
+      {/* Botón Regresar */}
+      <nav className="self-start">
+        <Link
+          to="/PrimeraVista"
+          className="text-sm uppercase tracking-wide text-gray-700 hover:text-gray-900 transition"
+        >
+          ← Volver
+        </Link>
+      </nav>
 
-      <div className="max-w-xl text-sm leading-relaxed text-left space-y-2 mb-10">
-      <p>By using our app, you agree to these terms and conditions.</p>
-<p>If you do not agree, we recommend that you do not use our services.</p>
-<p>
-You must register with accurate information and maintain the security of your account,
-without misusing or illegally using the app.
-</p>
-<p>
-We collect and store personal, financial, and location information
-in accordance with our Privacy Policy.
-</p>
-<p>
-Payments are processed securely, and you are responsible for any
-activity on your account.
-</p>
-<p>
-All content on the app is the property of GLAMFASHION and may not be
-copied without authorization.
-</p>
-<p>
-We are not responsible for any damages arising from the use of the app, and
-we reserve the right to modify these terms at any time.
-</p>
-<p>
-For inquiries, please contact us at: glamfashionhelp.com.
-By using the app, you confirm that you accept these terms.
-</p>
-</div>
+      {/* Encabezado */}
+      <header className="max-w-3xl text-center mt-6 mb-10">
+        <h1 className="text-4xl font-extrabold uppercase tracking-widest mb-4">
+          Términos y Condiciones
+        </h1>
+        <p className="text-sm text-gray-600">
+          Lee con atención los términos que regulan el uso de nuestra plataforma.
+        </p>
+      </header>
 
-      <Link
-        to="/PrimeraVista"
-        className="bg-black text-white px-8 py-2 rounded-full uppercase font-semibold tracking-wide hover:bg-gray-800 transition"
-      >  
-       I accept
-      </Link>
+      {/* Contenido de términos */}
+      <div className="bg-white shadow-lg rounded-lg p-8 max-w-3xl space-y-6 mb-10">
+        <p>
+          Al usar nuestra aplicación, aceptas cumplir estos términos y condiciones. Si no
+          estás de acuerdo, te recomendamos no utilizar nuestros servicios.
+        </p>
+        <p>
+          Debes registrarte con información veraz y mantener la seguridad de tu cuenta,
+          evitando usos indebidos o ilícitos de la app.
+        </p>
+        <p>
+          Recopilamos y almacenamos datos personales, financieros y de ubicación de
+          acuerdo con nuestra Política de Privacidad.
+        </p>
+        <p>
+          Los pagos se procesan de forma segura; eres responsable de cualquier actividad
+          realizada con tu cuenta.
+        </p>
+        <p>
+          Todo el contenido de la app es propiedad de <strong>GLAMFASHION</strong> y está
+          protegido. No puede copiarse sin autorización.
+        </p>
+        <p>
+          No nos hacemos responsables de daños derivados del uso de la app y
+          nos reservamos el derecho de modificar estos términos en cualquier momento.
+        </p>
+        <p>
+          Para consultas, escríbenos a <a href="mailto:glamfashioncar@gmail.com" className="text-blue-600 hover:underline">glamfashioncar@gmail.com</a>.
+        </p>
+      </div>
     </div>
   );
 };

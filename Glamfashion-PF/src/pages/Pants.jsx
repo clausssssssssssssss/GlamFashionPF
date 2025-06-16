@@ -19,7 +19,6 @@ const Productos = () => {
     { titulo: "Vestido negro", precio: 39, imagen: "/images/imgProducto3.jpg" },
     { titulo: "Vestido marrón", precio: 45, imagen: "/images/imgProducto4.jpg" },
     { titulo: "Vestido rojo corto", precio: 38, imagen: "/images/imgProducto5.jpg" },
-    // ...repítelos o añade más
   ];
 
   return (
@@ -38,7 +37,7 @@ const Productos = () => {
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h1 className="text-4xl font-extrabold mb-2">GLAMFASHION</h1>
         <h2 className="text-lg uppercase tracking-wider text-gray-600">
-          Dresses Collection
+          Jeans Collection
         </h2>
       </div>
 

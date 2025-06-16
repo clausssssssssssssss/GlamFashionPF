@@ -7,7 +7,7 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, 
   auth: {
-    user: "noreply.byteshop@gmail.com", 
+    user: "glamfashioncar@gmail.com", 
     pass: config.email.password,
   },
 });
@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async (to, subject, text, html) => {
   try {
     const info = await transporter.sendMail({
-      from: '"Soporte ByteShop" <noreply.byteshop@gmail.com>', // Dirección del remitente
+      from: '"Soporte GlamFashion" <glamfashioncar@gmail.com>', // Dirección del remitente
       to, // Dirección(es) del destinatario
       subject, // Asunto
       text, // Cuerpo del correo en texto plano

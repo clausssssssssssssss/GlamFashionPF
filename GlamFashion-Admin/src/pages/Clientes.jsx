@@ -1,43 +1,91 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Sidebar from "../components/Sidebar"; // Ajustá la ruta según tu estructura
+// src/pages/Clientes.jsx
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDataClients } from "../components/clients/hooks/useDataClients.jsx";
+import ListClients from "../components/clients/ListClients.jsx";
 
 const Clientes = () => {
+  const {
+    clients,
+    loading,
+    error,
+    addClient,
+    updateClient,
+    deleteClient,
+  } = useDataClients();
+
+  const navigate = useNavigate();  
+
+  const [form, setForm] = useState({
+    name: "",
+    lastName: "",
+    birthday: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+  const [editingId, setEditingId] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (editingId) {
+      await updateClient(editingId, form);
+    } else {
+      await addClient(form);
+    }
+    setForm({ name: "", lastName: "", birthday: "", email: "", phone: "", password: "" });
+    setEditingId(null);
+  };
+
+  const handleEdit = (client) => {
+    setForm({
+      name: client.name,
+      lastName: client.lastName,
+      birthday: client.birthday?.split("T")[0],
+      email: client.email,
+      phone: client.phone || "",
+      password: "",
+    });
+    setEditingId(client._id);
+  };
+
   return (
-    <div className="flex">
-      <Sidebar />
-
-      <div className="flex-1 ml-16 md:ml-64 p-6 bg-white min-h-screen">
-    
-
-        {/* Encabezado */}
-        <h1 className="text-2xl font-extrabold tracking-widest mb-4">GLAMFASHION</h1>
-        <h2 className="text-lg font-semibold uppercase mb-6">Clients</h2>
-
-        {/* Contenedor del formulario */}
-        <div className="bg-gray-100 p-6 rounded-lg shadow mb-8">
-          <h3 className="text-md font-bold uppercase mb-4 text-center">Customers</h3>
-
-          {/* Campos */}
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6 text-center">
-            <button className="border py-2 rounded font-bold uppercase">Name</button>
-            <button className="border py-2 rounded font-bold uppercase">Last Name</button>
-            <button className="border py-2 rounded font-bold uppercase">Birthday</button>
-            <button className="border py-2 rounded font-bold uppercase">E-mail</button>
-            <button className="border py-2 rounded font-bold uppercase">Phone</button>
-            <button className="border py-2 rounded font-bold uppercase">Password</button>
-          </div>
-
-          {/* Área vacía (simulando tabla o lista) */}
-          <div className="bg-white border rounded h-40 mb-6"></div>
-
-          {/* Botones */}
-          <div className="flex justify-center gap-4">
-            <button className="border px-6 py-2 rounded hover:bg-black hover:text-white transition">Add</button>
-            <button className="border px-6 py-2 rounded hover:bg-black hover:text-white transition">Edit</button>
-            <button className="border px-6 py-2 rounded hover:bg-black hover:text-white transition">Eliminate</button>
-          </div>
+       <div className="min-h-screen bg-red-50 py-10 px-4 font-sans">
+      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-3xl p-10">
+        <div className="mb-6">
+          <button
+            onClick={() => navigate("/Dashboard")}
+            className="px-4 py-2 bg-red-200 text-black rounded hover:bg-black-700 transition">
+            Regresar
+          </button>
         </div>
+
+        <h1 className="text-3xl font-extrabold text-center text-black mb-8">
+          Clientes registrados
+        </h1>
+      </div>
+
+      {/* Tabla de clientes */}
+      <div className="bg-gray-100 p-4 rounded-lg shadow mb-6">
+        <div className="grid grid-cols-6 gap-4 font-semibold text-center uppercase text-sm mb-2">
+          <span>Name</span>
+          <span>Last Name</span>
+          <span>Birthday</span>
+          <span>E-mail</span>
+          <span>Phone</span>
+          <span>Actions</span>
+        </div>
+        {loading ? (
+          <p className="text-center">Loading...</p>
+        ) : (
+          <ListClients clients={clients} onEdit={handleEdit} onDelete={deleteClient} />
+        )}
+        {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
       </div>
     </div>
   );
