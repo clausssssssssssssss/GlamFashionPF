@@ -13,6 +13,7 @@ import clientsRoutes from "./routes/clients.js";
 import passwordRecoveryRoutes from "./routes/passwordRecovery.js";
 import adminAuthRoutes from "./routes/adminAuth.js";
 import suppliersRoutes from "./routes/suppliers.js";
+import paymenthMethod from "./routes/payment.js"
 
 // Inicializar app
 const app = express();
@@ -31,5 +32,6 @@ app.use("/api/passwordRecovery", passwordRecoveryRoutes);
 app.use("/api/admins", adminAuthRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/suppliers", suppliersRoutes);
+app.use("/api/payment", paymenthMethod)
 
 export default app;

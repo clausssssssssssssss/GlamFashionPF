@@ -1,33 +1,30 @@
+// src/App.jsx
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 
-
 // Páginas
-import PrimeraVista from './pages/PrimeraVista';
-import IniciarSesion from './pages/IniciarSesion';
-import CrearCuenta from './pages/Crearcuenta';
-import EditarPerfil from './pages/EditarPerfil';
-import Inicio from './pages/Inicio';
-import Perfil from './pages/Perfil';
-import Vestidos from './pages/Vestidos';
-import QuienesSomos from './pages/QuienesSomos';
-import Terminosycondiciones from './pages/Terminosycondiciones';
-import CarritoDeCompras from './pages/Carritodecompras';
-import Tops from './pages/Tops';
-import Skirts from './pages/Skirts';
-import Pants from './pages/Pants';
-import Shirts from './pages/Shirts';
+import PrimeraVista from "./pages/PrimeraVista";
+import IniciarSesion from "./pages/IniciarSesion";
+import CrearCuenta from "./pages/Crearcuenta";
+import EditarPerfil from "./pages/EditarPerfil";
+import Inicio from "./pages/Inicio";
+import Perfil from "./pages/Perfil";
+import Vestidos from "./pages/Vestidos";
+import QuienesSomos from "./pages/QuienesSomos";
+import Terminosycondiciones from "./pages/Terminosycondiciones";
+import CarritoDeCompras from "./pages/Carritodecompras";
+import Tops from "./pages/Tops";
+import Skirts from "./pages/Skirts";
+import Pants from "./pages/Pants";
+import Shirts from "./pages/Shirts";
 
-
-function App() { 
- 
-return (
+function App() {
+  return (
     <>
-      <Router>
+      <Nav />
       <Routes>
         <Route path="/" element={<PrimeraVista />} />
-        <Route path="/PrimeraVista" element={<PrimeraVista />} />
         <Route path="/IniciarSesion" element={<IniciarSesion />} />
         <Route path="/CrearCuenta" element={<CrearCuenta />} />
         <Route path="/EditarPerfil" element={<EditarPerfil />} />
@@ -41,12 +38,9 @@ return (
         <Route path="/Skirts" element={<Skirts />} />
         <Route path="/Pants" element={<Pants />} />
         <Route path="/Shirts" element={<Shirts />} />
-
       </Routes>
-      </Router>
     </>
   );
-};
-
+}
 
 export default App;
