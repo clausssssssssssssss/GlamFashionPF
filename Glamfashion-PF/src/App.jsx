@@ -2,6 +2,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
+import NavBar from "./components/NavBar";
 
 // Páginas
 import PrimeraVista from "./pages/PrimeraVista";
@@ -14,6 +15,8 @@ import Vestidos from "./pages/Vestidos";
 import QuienesSomos from "./pages/QuienesSomos";
 import Terminosycondiciones from "./pages/Terminosycondiciones";
 import CarritoDeCompras from "./pages/Carritodecompras";
+import Payment from "./pages/FormPayment";
+import PaymentFake from "./pages/FormPaymentFake";
 import Tops from "./pages/Tops";
 import Skirts from "./pages/Skirts";
 import Pants from "./pages/Pants";
@@ -34,6 +37,8 @@ function App() {
         <Route path="/QuienesSomos" element={<QuienesSomos />} />
         <Route path="/Terminosycondiciones" element={<Terminosycondiciones />} />
         <Route path="/Carritodecompras" element={<CarritoDeCompras />} />
+        <Route path="/FormPayment" element={<Payment />} />
+        <Route path="/FormPaymentFake" element={<PaymentFake />} />
         <Route path="/Tops" element={<Tops />} />
         <Route path="/Skirts" element={<Skirts />} />
         <Route path="/Pants" element={<Pants />} />
