@@ -1,116 +1,92 @@
-// src/components/Productos/hooks/useDataProducts.jsx
-import { useState, useEffect } from "react";
+// src/pages/ProductosAdmin.jsx
+import React, { useState } from "react";
+import RegisterProduct from "../components/Productos/RegisterProductos";
+import ListProducts     from "../components/Productos/ListProducts";
+import { useDataProducts } from "../components/Productos/hooks/useDataProducts";
 
-const BASE_URL = "/api/products";
-
-export function useDataProducts() {
-  const [products, setProducts] = useState([]);    
-  const [loading, setLoading] = useState(false);   
-  const [error, setError] = useState(null);        
-
-  // 1) Al montar, traemos todos los productos
-  useEffect(() => {
-    async function fetchProducts() {
-      setLoading(true);
-      try {
-        const resp = await fetch(BASE_URL);
-        if (!resp.ok) {
-          throw new Error(`Error ${resp.status}`);
-        }
-        const data = await resp.json();
-        setProducts(data);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProducts();
-  }, []);
-
-  const addProduct = async (productData) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const resp = await fetch(BASE_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(productData),
-      });
-      if (!resp.ok) {
-        const errJson = await resp.json().catch(() => null);
-        throw new Error(errJson?.message || `Error ${resp.status}`);
-      }
-      const newProduct = await resp.json();
-      setProducts((prev) => [newProduct, ...prev]);
-      return newProduct;
-    } catch (err) {
-      console.error("Error adding product:", err);
-      setError(err.message);
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 3) Editar un producto existente (PUT /api/products/:id)
-  const editProduct = async (id, productData) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const resp = await fetch(`${BASE_URL}/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(productData),
-      });
-      if (!resp.ok) {
-        const errJson = await resp.json().catch(() => null);
-        throw new Error(errJson?.message || `Error ${resp.status}`);
-      }
-      const updatedProduct = await resp.json();
-      setProducts((prev) =>
-        prev.map((p) => (p._id === id ? updatedProduct : p))
-      );
-      return updatedProduct;
-    } catch (err) {
-      console.error("Error editing product:", err);
-      setError(err.message);
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 4) Eliminar un producto (DELETE /api/products/:id)
-  const deleteProduct = async (id) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const resp = await fetch(`${BASE_URL}/${id}`, {
-        method: "DELETE",
-      });
-      if (!resp.ok) {
-        const errJson = await resp.json().catch(() => null);
-        throw new Error(errJson?.message || `Error ${resp.status}`);
-      }
-      setProducts((prev) => prev.filter((p) => p._id !== id));
-      return true;
-    } catch (err) {
-      console.error("Error deleting product:", err);
-      setError(err.message);
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return {
+export default function ProductosAdmin() {
+  // --- estado global de los productos ---
+  const {
     products,
     loading,
-    error,
     addProduct,
     editProduct,
     deleteProduct,
+  } = useDataProducts();
+
+  // --- estados del formulario ---
+  const [id,          setId]          = useState(null);
+  const [name,        setName]        = useState("");
+  const [description, setDescription] = useState("");
+  const [price,       setPrice]       = useState("");
+  const [stock,       setStock]       = useState("");
+  const [image,       setImage]       = useState("");
+  const [category,    setCategory]    = useState("");    // <--- nuevo
+
+  // Al pulsar “Editar” relleno todos los campos, incluida la categoría
+  const handleEditInit = (prod) => {
+    setId(prod._id);
+    setName(prod.name);
+    setDescription(prod.description);
+    setPrice(prod.price);
+    setStock(prod.stock);
+    setImage(prod.image);
+    setCategory(prod.category);    // <--- aquí
   };
+
+  // Guardar nuevo producto
+  const saveProduct = async (e) => {
+    e.preventDefault();
+    await addProduct({ name, description, price, stock, image, category });
+    clearForm();
+  };
+
+  // Actualizar producto existente
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    await editProduct(id, { name, description, price, stock, image, category });
+    clearForm();
+  };
+
+  // Limpiar el formulario
+  const clearForm = () => {
+    setId(null);
+    setName("");
+    setDescription("");
+    setPrice("");
+    setStock("");
+    setImage("");
+    setCategory("");             // <--- y aquí
+  };
+
+  return (
+    <div className="p-8 space-y-10">
+      <h1 className="text-3xl font-bold text-center">Gestión de Productos</h1>
+
+      <RegisterProduct
+        id={id}
+        name={name}
+        description={description}
+        price={price}
+        stock={stock}
+        image={image}
+        category={category}        // <--- paso los dos
+        setName={setName}
+        setDescription={setDescription}
+        setPrice={setPrice}
+        setStock={setStock}
+        setImage={setImage}
+        setCategory={setCategory}  // <--- 
+        saveProduct={saveProduct}
+        handleEdit={handleEdit}
+      />
+
+      <ListProducts
+        products={products}
+        loading={loading}
+        updateProduct={handleEditInit}
+        deleteProduct={deleteProduct}
+      />
+    </div>
+  );
 }

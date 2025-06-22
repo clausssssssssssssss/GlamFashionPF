@@ -40,8 +40,6 @@ const App = () => {
           <Route path="/PerfilAdmin" element={<PerfilAdmin />} />
           <Route path="/EditarPerfilAdmin" element={<EditarPerfilAdmin />} />
         </Routes>
-
-        {/* Contenedor de notificaciones */}
         <ToastContainer />
       </Router>
     </>

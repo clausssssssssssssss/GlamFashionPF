@@ -7,31 +7,33 @@ import toast, { Toaster } from "react-hot-toast";
 
 const Productos = () => {
   const navigate = useNavigate();
-
-  const [activeTab, setActiveTab] = useState("list");
   const API = "/api/products";
 
+  // Pestañas: "list" o "form"
+  const [activeTab, setActiveTab] = useState("list");
+
+  // Campos del formulario
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
   const [image, setImage] = useState("");
+  const [category, setCategory] = useState("");
 
+  // Lista de productos
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await fetch(API);
-      if (!response.ok) {
-        throw new Error("Hubo un error al obtener los productos");
-      }
-      const data = await response.json();
+      const res = await fetch(API);
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      const data = await res.json();
       setProducts(data);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       toast.error("Error al obtener productos");
     } finally {
       setLoading(false);
@@ -42,109 +44,6 @@ const Productos = () => {
     fetchProducts();
   }, []);
 
-  const saveProduct = async (e) => {
-    e.preventDefault();
-    if (
-      !name.trim() ||
-      !description.trim() ||
-      !price ||
-      !stock ||
-      !image.trim()
-    ) {
-      toast.error("Por favor completa todos los campos");
-      return;
-    }
-
-    const newProduct = { name, description, price, stock, image };
-    try {
-      const response = await fetch(API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newProduct),
-      });
-
-      if (!response.ok) {
-        toast.error("Error al registrar el producto");
-        return;
-      }
-
-      toast.success("Producto registrado");
-      clearForm();
-      fetchProducts();
-      setActiveTab("list");
-    } catch (error) {
-      console.error(error);
-      toast.error("Error en la petición");
-    }
-  };
-
-  const deleteProduct = async (productId) => {
-    const confirmed = window.confirm(
-      "¿Seguro que deseas eliminar este producto?"
-    );
-    if (!confirmed) return;
-
-    try {
-      const response = await fetch(`${API}/${productId}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        toast.error("Error al eliminar producto");
-        return;
-      }
-      toast.success("Producto eliminado");
-      fetchProducts();
-    } catch (error) {
-      console.error(error);
-      toast.error("Error en la petición");
-    }
-  };
-
-  const updateProduct = (product) => {
-    setId(product._id);
-    setName(product.name);
-    setDescription(product.description);
-    setPrice(product.price);
-    setStock(product.stock);
-    setImage(product.image);
-    setActiveTab("form");
-  };
-
-  const handleEdit = async (e) => {
-    e.preventDefault();
-    if (
-      !name.trim() ||
-      !description.trim() ||
-      !price ||
-      !stock ||
-      !image.trim()
-    ) {
-      toast.error("Por favor completa todos los campos");
-      return;
-    }
-
-    try {
-      const updated = { name, description, price, stock, image };
-      const response = await fetch(`${API}/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updated),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al actualizar el producto");
-      }
-
-      toast.success("Producto actualizado");
-      clearForm();
-      fetchProducts();
-      setActiveTab("list");
-    } catch (error) {
-      console.error(error);
-      toast.error("Error en la edición");
-    }
-  };
-
   const clearForm = () => {
     setId("");
     setName("");
@@ -152,46 +51,115 @@ const Productos = () => {
     setPrice("");
     setStock("");
     setImage("");
+    setCategory("");
+  };
+
+  const saveProduct = async (e) => {
+    e.preventDefault();
+    if (!name || !description || !price || !stock || !category) {
+      toast.error("Completa todos los campos");
+      return;
+    }
+    try {
+      const newProduct = { name, description, price, stock, image, category };
+      const res = await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newProduct),
+      });
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      toast.success("Producto agregado");
+      clearForm();
+      fetchProducts();
+      setActiveTab("list");
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al agregar");
+    }
+  };
+
+  const handleEditInit = (prod) => {
+    setId(prod._id);
+    setName(prod.name);
+    setDescription(prod.description);
+    setPrice(prod.price);
+    setStock(prod.stock);
+    setImage(prod.image || "");
+    setCategory(prod.category || "");
+    setActiveTab("form");
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    if (!name || !description || !price || !stock || !category) {
+      toast.error("Completa todos los campos");
+      return;
+    }
+    try {
+      const updated = { name, description, price, stock, image, category };
+      const res = await fetch(`${API}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated),
+      });
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      toast.success("Producto actualizado");
+      clearForm();
+      fetchProducts();
+      setActiveTab("list");
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al actualizar");
+    }
+  };
+
+  const deleteProduct = async (prodId) => {
+    if (!window.confirm("¿Eliminar producto?")) return;
+    try {
+      const res = await fetch(`${API}/${prodId}`, { method: "DELETE" });
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      toast.success("Producto eliminado");
+      fetchProducts();
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al eliminar");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-red-50 py-10 px-4 font-sans">
+    <div className="min-h-screen bg-red-50 py-10 px-4">
       <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-3xl p-10">
-        {/* Botón para regresar al Dashboard */}
-        <div className="mb-6">
         <button
-            onClick={() => navigate("/dashboard")}
-            className="px-4 py-2 bg-red-200 text-black rounded hover:bg-black-700 transition"
-          >
-            Regresar
-          </button>
-        </div>
+          onClick={() => navigate("/dashboard")}
+          className="px-4 py-2 bg-red-200 text-black rounded hover:bg-red-300 mb-6"
+        >
+          ← Regresar
+        </button>
 
-        <h1 className="text-3xl font-extrabold text-center text-black mb-8">
+        <h1 className="text-3xl font-extrabold text-center mb-8">
           Gestión de Productos
         </h1>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div className="flex justify-center gap-4 mb-8">
           <button
             onClick={() => setActiveTab("list")}
-            className={`px-6 py-2 rounded-full text-sm font-semibold transition ${
+            className={`px-6 py-2 rounded-full transition font-semibold ${
               activeTab === "list"
                 ? "bg-red-100 text-black"
-                : "bg-white text-black hover:bg-red-200"
+                : "bg-white text-gray-700 hover:bg-red-200"
             }`}
           >
             Ver Productos
           </button>
-
           <button
             onClick={() => {
-              if (id) clearForm();
+              clearForm();
               setActiveTab("form");
             }}
-            className={`px-6 py-2 rounded-full text-sm font-semibold transition ${
+            className={`px-6 py-2 rounded-full transition font-semibold ${
               activeTab === "form"
                 ? "bg-red-100 text-black"
-                : "bg-white text-black hover:bg-red-200"
+                : "bg-white text-gray-700 hover:bg-red-200"
             }`}
           >
             Añadir / Editar
@@ -204,7 +172,7 @@ const Productos = () => {
               products={products}
               loading={loading}
               deleteProduct={deleteProduct}
-              updateProduct={updateProduct}
+              updateProduct={handleEditInit}
             />
           ) : (
             <RegisterProduct
@@ -214,18 +182,19 @@ const Productos = () => {
               price={price}
               stock={stock}
               image={image}
+              category={category}
               setName={setName}
               setDescription={setDescription}
               setPrice={setPrice}
               setStock={setStock}
               setImage={setImage}
+              setCategory={setCategory}
               saveProduct={saveProduct}
               handleEdit={handleEdit}
             />
           )}
         </div>
       </div>
-
       <Toaster toastOptions={{ duration: 1500 }} />
     </div>
   );

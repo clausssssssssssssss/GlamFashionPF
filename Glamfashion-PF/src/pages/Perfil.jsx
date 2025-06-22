@@ -12,7 +12,6 @@ const Perfil = () => {
 
   return (
     <div className="min-h-screen bg-white p-8">
-      {/* Encabezado superior: Go back + Edit profile */}
       <div className="flex justify-between items-center mb-4">
         <Link
           to="/inicio"
