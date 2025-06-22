@@ -1,26 +1,37 @@
 import Products from "../models/products.js";
-
-export const getAllProducts = async (req, res) => {
-  try {
-    const products = await Products.find();
-    return res.json(products);
-  } catch (err) {
-    console.error(" [GET /api/products] ERROR al obtener productos:", err);
-    return res.status(500).json({ message: "Error interno al obtener productos" });
-  }
-};
+import mongoose from "mongoose";
 
 export const getProductById = async (req, res) => {
-   try {
-    const product = await Products.findById(req.params.id);
-    if (!product) 
+  const { id } = req.params;
+
+  // 1) Validar que sea un ObjectId válido
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "ID de producto inválido" });
+  }
+
+  try {
+    const product = await Products.findById(id);
+    if (!product) {
       return res.status(404).json({ message: "Producto no encontrado" });
+    }
     return res.json(product);
   } catch (err) {
     console.error(" [GET /api/products/:id] ERROR al obtener producto:", err);
     return res.status(500).json({ message: "Error interno al obtener producto" });
   }
 };
+
+export const getAllProducts = async (req, res) => {
+  try {
+    const filter = {};
+    if (req.query.category) filter.category = req.query.category;
+    const products = await Products.find(filter);
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: "Error al obtener productos" });
+  }
+};
+
 
 export const createProduct = async (req, res) => {
   const newProduct = new Products(req.body);

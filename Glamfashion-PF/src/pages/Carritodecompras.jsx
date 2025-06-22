@@ -1,186 +1,121 @@
-import React, { useContext, useEffect, useState } from "react";
+// src/pages/Carritodecompras.jsx
+import React, { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import { Link } from "react-router-dom";
 import useFetchProducts from "../hooks/useFetchProducts";
-import { AuthContext } from "../context/AuthContext";
-import toast from "react-hot-toast";
+import CardProducto from "../components/Cards";
 
-const CartProducts = () => {
-  const { products } = useFetchProducts();
-  const [cart, setCart] = useState([]);
-  const { user } = useContext(AuthContext); // Obtener el usuario autenticado
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(null);
+export default function Carritodecompras() {
+  const { cartItems, removeFromCart } = useContext(CartContext);
+  const { products: allProducts, loading, error } = useFetchProducts();
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
-  }, []);
+  // Filtrar productos recomendados que no estén ya en el carrito
+  const recommended = allProducts
+    .filter((p) => !cartItems.some((item) => item.id === p._id))
+    .slice(0, 4);
 
-  const updateCart = (newCart) => {
-    setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
-  };
-
-  const handleRemove = (idProduct) => {
-    const newCart = cart.filter((item) => item.idProduct !== idProduct);
-    updateCart(newCart);
-  };
-
-  const handleQuantityChange = (idProduct, delta) => {
-    const newCart = cart.map((item) => {
-      if (item.idProduct === idProduct) {
-        const newQuantity = item.quantity + delta;
-        if (newQuantity < 1) return item;
-        const productInfo = products.find((p) => p._id === idProduct);
-        return {
-          ...item,
-          quantity: newQuantity,
-          subtotal: productInfo.price * newQuantity,
-        };
-      }
-      return item;
-    });
-    updateCart(newCart);
-  };
-
-  const cartWithDetails = cart.map((cartItem) => {
-    const productInfo = products.find((p) => p._id === cartItem.idProduct);
-    return {
-      ...cartItem,
-      name: productInfo?.name || "Producto no encontrado",
-      price: productInfo?.price || 0,
-    };
-  });
-
-  const total = cartWithDetails.reduce((acc, item) => acc + item.subtotal, 0);
-
-  // Función para enviar el pedido a la API
-  const sendOrder = async () => {
-    setLoading(true);
-    setMessage(null);
-    //const userId = localStorage.getItem("userId") || "default-user-id"; // Simulación de ID de usuario
-    const order = {
-      idClient: user, // Aquí deberías poner el id real (auth)
-      products: cart,
-      total,
-      status: "Pending",
-    };
-
-    console.log("Enviando pedido:", order);
-
-    try {
-      const response = await fetch("http://localhost:4000/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        //credentials: "include", // Para enviar cookies si es necesario
-        body: JSON.stringify(order),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Error al crear pedido");
-      }
-
-      setMessage("Pedido creado con éxito 🎉");
-      toast.success("Pedido creado con éxito");
-      setCart([]);
-      localStorage.removeItem("cart");
-    } catch (error) {
-      setMessage(`Error: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (cart.length === 0) {
-    return <p className="p-6 text-center">Tu carrito está vacío.</p>;
-  }
+  const total = cartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded shadow">
-      <h1 className="text-2xl font-bold mb-4">Vista previa del carrito</h1>
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="border-b">
-            <th className="text-left py-2">Producto</th>
-            <th className="text-right py-2">Precio</th>
-            <th className="text-center py-2">Cantidad</th>
-            <th className="text-right py-2">Subtotal</th>
-            <th className="text-center py-2">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cartWithDetails.map((item) => (
-            <tr key={item.idProduct} className="border-b">
-              <td className="py-2">{item.name}</td>
-              <td className="text-right py-2">${item.price.toFixed(2)}</td>
-              <td className="text-center py-2">
-                <button
-                  onClick={() => handleQuantityChange(item.idProduct, -1)}
-                  className="px-2 py-1 border rounded-l"
-                  aria-label={`Disminuir cantidad de ${item.name}`}
-                >
-                  -
-                </button>
-                <span className="px-3">{item.quantity}</span>
-                <button
-                  onClick={() => handleQuantityChange(item.idProduct, 1)}
-                  className="px-2 py-1 border rounded-r"
-                  aria-label={`Aumentar cantidad de ${item.name}`}
-                >
-                  +
-                </button>
-              </td>
-              <td className="text-right py-2">${item.subtotal.toFixed(2)}</td>
-              <td className="text-center py-2">
-                <button
-                  onClick={() => handleRemove(item.idProduct)}
-                  className="text-red-600 hover:text-red-800 font-semibold"
-                  aria-label={`Eliminar ${item.name} del carrito`}
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan="3" className="text-right font-bold py-2">
-              Total:
-            </td>
-            <td className="text-right font-bold py-2">${total.toFixed(2)}</td>
-            <td></td>
-          </tr>
-        </tfoot>
-      </table>
+    <div className="min-h-screen bg-gray-100 py-8 px-4">
+      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-6">
+        <h1 className="text-3xl font-extrabold text-gray-800 mb-6 border-b pb-4">
+          🛒 Tu Carrito
+        </h1>
 
-      {/* Mensaje de estado */}
-      {message && (
-        <p
-          className={`mt-4 font-semibold ${
-            message.startsWith("Error") ? "text-red-600" : "text-green-600"
-          }`}
-          role="alert"
+        {cartItems.length === 0 ? (
+          <p className="text-xl text-gray-600 text-center py-8">
+            Tu carrito está vacío.
+          </p>
+        ) : (
+          <>
+            <div className="space-y-4">
+              {cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center bg-gray-50 rounded-xl p-4 shadow-inner"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-24 h-24 object-cover rounded-lg mr-4"
+                  />
+                  <div className="flex-1">
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      {item.name}
+                    </h2>
+                    <p className="text-gray-600">Cantidad: {item.qty}</p>
+                    <p className="text-gray-600">
+                      Precio unitario: ${item.price.toFixed(2)}
+                    </p>
+                    <p className="text-gray-800 font-medium">
+                      Subtotal: ${(item.price * item.qty).toFixed(2)}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="ml-4 text-red-500 hover:text-red-700"
+                    aria-label="Eliminar del carrito"
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 border-t pt-4 flex items-center justify-between">
+              <p className="text-xl font-bold text-gray-900">
+                Total: ${total.toFixed(2)}
+              </p>
+              <Link
+                to="/FormPayment"
+                className="bg-blue-600 text-white px-6 py-3 rounded-full shadow hover:bg-blue-700 transition"
+              >
+                Proceder al Pago
+              </Link>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Sección de productos recomendados */}
+      <div className="max-w-5xl mx-auto mt-12">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          Más productos para ti
+        </h2>
+        {loading ? (
+          <p className="text-center text-gray-600">Cargando productos…</p>
+        ) : error ? (
+          <p className="text-center text-red-600">Error: {error}</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {recommended.map((prod) => (
+              <Link
+                key={prod._id}
+                to={`/producto/${prod._id}`}
+                className="block"
+              >
+                <CardProducto
+                  titulo={prod.name}
+                  precio={prod.price}
+                  imagen={prod.image}
+                  botonTexto="Ver más"
+                />
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Botón volver a catálogo */}
+      <div className="max-w-5xl mx-auto text-center mt-8">
+        <Link
+          to="/inicio"
+          className="inline-block bg-gray-800 text-white px-6 py-3 rounded-full hover:bg-gray-900 transition"
         >
-          {message}
-        </p>
-      )}
-
-      {/* Botón para enviar pedido */}
-      <button
-        onClick={sendOrder}
-        disabled={loading}
-        className={`mt-6 px-6 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:opacity-50`}
-      >
-        {loading ? "Enviando..." : "Enviar Pedido"}
-      </button>
+          ← Volver a los productos
+        </Link>
+      </div>
     </div>
   );
-};
-
-export default CartProducts;
+}

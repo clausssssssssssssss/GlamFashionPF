@@ -1,27 +1,14 @@
+// src/pages/Skirts.jsx
 import React from "react";
-import CardProducto from "../components/Cards";
 import { Link } from "react-router-dom";
+import CardProducto from "../components/Cards";
+import useFetchProducts from "../hooks/useFetchProducts";
 
+export default function Skirts() {
+  const { products } = useFetchProducts();
 
-const Productos = () => {
-  const productos = [
-    { titulo: "Vestido blanco", precio: 40, imagen: "/images/imgProducto1.jpg" },
-    { titulo: "Vestido beige", precio: 42, imagen: "/images/imgProducto2.jpg" },
-    { titulo: "Vestido negro", precio: 39, imagen: "/images/imgProducto3.jpg" },
-    { titulo: "Vestido marrón", precio: 45, imagen: "/images/imgProducto4.jpg" },
-    { titulo: "Vestido rojo corto", precio: 38, imagen: "/images/imgProducto5.jpg" },
-    { titulo: "Vestido blanco", precio: 40, imagen: "/images/imgProducto1.jpg" },
-    { titulo: "Vestido beige", precio: 42, imagen: "/images/imgProducto2.jpg" },
-    { titulo: "Vestido negro", precio: 39, imagen: "/images/imgProducto3.jpg" },
-    { titulo: "Vestido marrón", precio: 45, imagen: "/images/imgProducto4.jpg" },
-    { titulo: "Vestido rojo corto", precio: 38, imagen: "/images/imgProducto5.jpg" },
-    { titulo: "Vestido blanco", precio: 40, imagen: "/images/imgProducto1.jpg" },
-    { titulo: "Vestido beige", precio: 42, imagen: "/images/imgProducto2.jpg" },
-    { titulo: "Vestido negro", precio: 39, imagen: "/images/imgProducto3.jpg" },
-    { titulo: "Vestido marrón", precio: 45, imagen: "/images/imgProducto4.jpg" },
-    { titulo: "Vestido rojo corto", precio: 38, imagen: "/images/imgProducto5.jpg" },
-    // ...repítelos o añade más
-  ];
+  // Filtramos solo la categoría "Skirts"
+  const skirts = products.filter((p) => p.category === "Skirts");
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-6">
@@ -43,19 +30,23 @@ const Productos = () => {
         </h2>
       </div>
 
-      {/* Grilla de tarjetas */}
+      {/* Grilla de tarjetas con Link a detalle */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {productos.map((prod, idx) => (
-          <CardProducto
-            key={idx}
-            titulo={prod.titulo}
-            precio={prod.precio}
-            imagen={prod.imagen}
-          />
+        {skirts.map((prod) => (
+          <Link
+            key={prod._id}
+            to={`/producto/${prod._id}`}
+            className="block"
+          >
+            <CardProducto
+              titulo={prod.name}
+              precio={prod.price}
+              imagen={prod.image}
+              botonTexto="Ver más"
+            />
+          </Link>
         ))}
       </div>
     </div>
   );
-};
-
-export default Productos;
+}

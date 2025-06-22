@@ -1,21 +1,17 @@
+// src/pages/Tops.jsx
 import React from "react";
-import CardProducto from "../components/Cards";
 import { Link } from "react-router-dom";
+import CardProducto from "../components/Cards";
+import useFetchProducts from "../hooks/useFetchProducts";
 
-const Productos = () => {
-  const productos = [
-    { titulo: "top negro", precio: 40, imagen: "/images/top1.jpeg" },
-    { titulo: "top leopardo", precio: 42, imagen: "/images/top2.jpg" },
-    { titulo: "top negro", precio: 39, imagen: "/images/top3.jpg" },
-    { titulo: "top rojo", precio: 45, imagen: "/images/top4.jpg" },
-    { titulo: "top rojo corto", precio: 38, imagen: "/images/top5.jpg" },
-    { titulo: "top blanco", precio: 40, imagen: "/images/top6.jpg" },
-    { titulo: "top beige", precio: 42, imagen: "/images/top7.jpg" },
-    { titulo: "top negro", precio: 39, imagen: "/images/top8.jpg" },
-    { titulo: "top marrón", precio: 45, imagen: "/images/top9.jpg" },
-    { titulo: "top rojo corto", precio: 38, imagen: "/images/top10.jpg" },
-   
-  ];
+export default function Tops() {
+  const { products, loading, error } = useFetchProducts();
+
+  // Filtramos sólo la colección “Tops”
+  const topsCollection = products.filter((p) => p.category === "Tops");
+
+  if (loading) return <p className="text-center py-8">Cargando tops…</p>;
+  if (error)   return <p className="text-center py-8 text-red-600">Error: {error}</p>;
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-6">
@@ -37,19 +33,23 @@ const Productos = () => {
         </h2>
       </div>
 
-      {/* Grilla de tarjetas */}
+      {/* Grilla de tarjetas con Link a detalle */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {productos.map((prod, idx) => (
-          <CardProducto
-            key={idx}
-            titulo={prod.titulo}
-            precio={prod.precio}
-            imagen={prod.imagen}
-          />
+        {topsCollection.map((prod) => (
+          <Link
+            key={prod._id}
+            to={`/producto/${prod._id}`}
+            className="block"
+          >
+            <CardProducto
+              titulo={prod.name}
+              precio={prod.price}
+              imagen={prod.image}
+              botonTexto="Ver más"
+            />
+          </Link>
         ))}
       </div>
     </div>
   );
-};
-
-export default Productos;
+}

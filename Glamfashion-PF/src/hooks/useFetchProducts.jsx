@@ -1,63 +1,49 @@
-import React, {useEffect, useState} from 'react'
+// src/hooks/useFetchProducts.js
+import { useEffect, useState, useCallback } from "react";
 
-const useFetchProducts=()=>
-{
+const API_BASE = "http://localhost:4000/api";
 
-    const [products, setProducts]=useState([])
-    const [categories, setCategories]=useState([])
+export default function useFetchProducts(category = "") {
+  const [products, setProducts]   = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState(null);
 
-    const getProducts=async()=>{
-        try {
-            const response = await fetch('http://localhost:4000/api/products');
-
-            if(!response.ok) 
-            {
-              alert("Error al traer los productos")
-            }
-
-            const data = await response.json();
-
-            setProducts(data)
-            console.log("data de productos", data)
-
-        } catch (error) {
-            console.log(error)
-            
-        }
+  // Llama al endpoint /api/products o /api/products?category=X
+  const getProducts = useCallback(async () => {
+    setLoading(true);
+    try {
+      const url = category
+        ? `${API_BASE}/products?category=${encodeURIComponent(category)}`
+        : `${API_BASE}/products`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Error ${response.status}`);
+      const data = await response.json();
+      setProducts(data);
+    } catch (err) {
+      console.error("Error al traer productos:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+  }, [category]);
 
-    const getCategories=async()=>{
-        try {
-            const response = await fetch('http://localhost:4000/api/categories');
-
-            if(!response.ok) 
-            {
-              alert("Error al traer las categorias")
-            }
-
-            const data = await response.json();
-            setCategories(data)
-
-            console.log("data de categorias", data)
-
-        } catch (error) {
-            console.log(error)
-            
-        }
+  // Llama al endpoint /api/categories
+  const getCategories = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_BASE}/categories`);
+      if (!response.ok) throw new Error(`Error ${response.status}`);
+      const data = await response.json();
+      setCategories(data);
+    } catch (err) {
+      console.error("Error al traer categorías:", err);
     }
+  }, []);
 
-    useEffect(()=>{
-        getProducts();
-        getCategories();
-    },
-     [])
+  useEffect(() => {
+    getProducts();
+    getCategories();
+  }, [getProducts, getCategories]);
 
-    return {
-        products, 
-        setProducts,
-        categories,
-        setCategories,
-    }
+  return { products, categories, loading, error };
 }
-
-export default useFetchProducts

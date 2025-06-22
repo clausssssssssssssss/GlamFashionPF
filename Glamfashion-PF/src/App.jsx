@@ -21,6 +21,7 @@ import Tops from "./pages/Tops";
 import Skirts from "./pages/Skirts";
 import Pants from "./pages/Pants";
 import Shirts from "./pages/Shirts";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="/Skirts" element={<Skirts />} />
         <Route path="/Pants" element={<Pants />} />
         <Route path="/Shirts" element={<Shirts />} />
+        <Route path="/producto/:id" element={<ProductDetail />} />
       </Routes>
     </>
   );

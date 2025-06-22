@@ -13,16 +13,31 @@ import clientsRoutes from "./routes/clients.js";
 import passwordRecoveryRoutes from "./routes/passwordRecovery.js";
 import adminAuthRoutes from "./routes/adminAuth.js";
 import suppliersRoutes from "./routes/suppliers.js";
-import paymenthMethod from "./routes/payment.js"
+import paymenthMethod from "./routes/payment.js";
 
 // Inicializar app
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Permite peticiones sin origin (Postman, curl, etc.)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`Origen no permitido por CORS: ${origin}`));
+    },
+    credentials: true,
+  })
+);
+
 // Middlewares globales
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true,
-}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -32,6 +47,6 @@ app.use("/api/passwordRecovery", passwordRecoveryRoutes);
 app.use("/api/admins", adminAuthRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/suppliers", suppliersRoutes);
-app.use("/api/payment", paymenthMethod)
+app.use("/api/payment", paymenthMethod);
 
 export default app;
