@@ -8,7 +8,7 @@ const TerminosCondiciones = () => {
       {/* Botón Regresar */}
       <nav className="self-start">
         <Link
-          to="/PrimeraVista"
+          to="/Inicio"
           className="text-sm uppercase tracking-wide text-gray-700 hover:text-gray-900 transition"
         >
           ← Volver

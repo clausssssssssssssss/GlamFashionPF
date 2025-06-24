@@ -102,10 +102,9 @@ const Inicio = () => {
           </ul>
         </div>
 
-        {/* Logout abajo al pie del sidebar */}
         <div className="p-6 border-t">
           <Link
-            to="/PrimeraVista"
+            to="/"
             className="block text-sm uppercase font-semibold hover:underline"
             onClick={() => setIsOpen(false)}
           >

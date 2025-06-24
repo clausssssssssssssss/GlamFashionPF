@@ -69,7 +69,7 @@ const usePaymentForm = () => {
     alert("Generando token de acceso...");
 
     // 1. Obtener token del backend
-    const tokenResponse = await fetch("http://localhost:3001/api/token", {
+    const tokenResponse = await fetch("http://localhost:4000/api/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -142,4 +142,5 @@ const usePaymentForm = () => {
     setStep,
   };
 };
+
 export default usePaymentForm;

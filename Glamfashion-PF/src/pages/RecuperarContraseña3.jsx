@@ -15,7 +15,7 @@ const RecuperarContraseña3 = () => {
   useEffect(() => {
     if (!email) {
       // Si no hay email, regresamos a paso 1
-      navigate("/RecuperarContraseña1");
+      navigate("/IniciarSesion");
     }
   }, [email, navigate]);
 

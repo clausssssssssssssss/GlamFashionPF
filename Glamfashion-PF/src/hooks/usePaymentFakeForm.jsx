@@ -1,104 +1,48 @@
+// src/hooks/usePaymentFakeForm.jsx
 import { useState } from "react";
 
-const usePaymentFakeForm = () => {
-  const [formData, setFormData] = useState({
-    monto: 0,
-    emailCliente: "",
-    nombreCliente: "",
-    tokenTarjeta: "null",
-  });
+export function usePaymentFakeForm() {
+  const [error, setError] = useState(null);
 
-  const [datosEnviados, setDatosEnviados] = useState(null);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const limpiarFormulario = () => {
-    setFormData({
-      nombreCliente: "",
-      emailCliente: "",
-      monto: "",
-    });
-    setDatosEnviados(null);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setDatosEnviados(formData);
-    console.log("Datos del formulario:", formData);
-  };
-
-  const handleFakePayment = async () => {
+  const handleFakePayment = async ({ nombreCliente, emailCliente, monto }) => {
+    setError(null);
     try {
-      alert("Generando token de acceso...");
+      // 0) Sacar userId de localStorage
+      const stored = localStorage.getItem("clientUser");
+      if (!stored) throw new Error("Usuario no autenticado");
+      const { id: userId } = JSON.parse(stored);
 
-      // 1. Obtener token del backend
-      const tokenResponse = await fetch("http://localhost:3001/api/token", {
+      // 1) Preparar payload
+      // Convertimos el monto (p.ej. "45.50") a centavos -> 4550
+      const amount = Math.round(parseFloat(monto) * 100);
+      const currency = "USD"; // o la que uses, p.ej. "COP"
+      
+      // 2) Llamar al backend a /api/token para generar token + guardar purchase
+      const resp = await fetch("http://localhost:4000/api/token", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, amount, currency }),
       });
-
-      if (!tokenResponse.ok) {
-        const errorText = await tokenResponse.text();
-        throw new Error(`Error al obtener token: ${errorText}`);
+      if (!resp.ok) {
+        const errJson = await resp.json().catch(() => null);
+        throw new Error(errJson?.message || `Error ${resp.status}`);
       }
+      const { token, purchase } = await resp.json();
 
-      const tokenData = await tokenResponse.json();
-      const accessToken = tokenData.access_token;
+      // 3) Aquí ya tienes:
+      //    • token → tu JWT si lo usas
+      //    • purchase → el documento guardado en MongoDB Atlas
+      console.log("Token recibido:", token);
+      console.log("Compra guardada:", purchase);
+      console.log("Datos del formulario:", { nombreCliente, emailCliente, monto });
 
-      alert("Token generado. Enviando pago...", accessToken);
-
-      const formDataPayment = {
-        ...formData,
-        tokenTarjeta: "null", // Simulando que no se envía el token de tarjeta
-      };
-
-      // 2. Enviar datos de pago al backend, que se encargará de llamar a Wompi
-      const paymentResponse = await fetch(
-        "http://localhost:3001/api/testPayment",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            token: accessToken,
-            formData: formDataPayment,
-          }),
-        }
-      );
-      console.log(formData);
-
-      if (!paymentResponse.ok) {
-        const errorText = await paymentResponse.text();
-        throw new Error(`Error al procesar pago: ${errorText}`);
-      }
-
-      const paymentData = await paymentResponse.json();
-      alert("Pago simulado correctamente");
-      console.log("Respuesta del pago:", paymentData);
-    } catch (error) {
-      console.error("Error en el proceso de pago:", error);
-      alert(`Error: ${error.message}`);
+      // 4) Mostrar confirmación al usuario
+      alert(`Pago simulado OK. Ref: ${purchase.reference}\nTotal: ${purchase.amount / 100} ${purchase.currency}`);
+    } catch (err) {
+      console.error("Error en el proceso de pago:", err);
+      setError(err.message);
     }
-
-    limpiarFormulario();
   };
 
-  return {
-    formData,
-    datosEnviados,
-    handleChange,
-    handleSubmit,
-    limpiarFormulario,
-    handleFakePayment,
-  };
-};
-export default usePaymentFakeForm;
+  return { handleFakePayment, error };
+}

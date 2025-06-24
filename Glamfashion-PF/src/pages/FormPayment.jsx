@@ -74,7 +74,7 @@ const FormPayment = () => {
           )}
 
           {step === 3 && (
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-red-200 text-center">
+            <div className="bg-black rounded-2xl shadow-lg p-8 border border-red-200 text-center">
               <h2 className="text-3xl font-bold text-red-600 mb-4">¡Pago Exitoso!</h2>
               <p className="text-gray-700 mb-6">Tu transacción ha sido procesada correctamente.</p>
               <Button onClick={limpiarFormulario} variant="wine" className="w-full">Volver al carrito</Button>

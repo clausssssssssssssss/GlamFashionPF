@@ -1,38 +1,51 @@
 // src/pages/FormPaymentFake.jsx
-import React from "react";
-import NavBar from "../components/NavBar";
-import InputField from "../components/InputField";
-import Button from "../components/Button";
-import usePaymentFakeForm from "../hooks/usePaymentFakeForm";
-import TitleH1 from "../components/TitleH1";
+import React, { useState } from "react";
+import { usePaymentFakeForm } from "../hooks/usePaymentFakeForm";
 
-const FormPaymentFake = () => {
-  const { formData, datosEnviados, handleChange, handleSubmit, limpiarFormulario, handleFakePayment } = usePaymentFakeForm();
+export default function FormPaymentFake() {
+  const { handleFakePayment, error } = usePaymentFakeForm();
+  const [form, setForm] = useState({ nombreCliente: "", emailCliente: "", monto: "" });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleFakePayment(form);
+  };
 
   return (
-    <>
-      <NavBar />
-      <div className="min-h-screen bg-red-50 py-8 px-4">
-        <div className="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 border border-red-200">
-          <TitleH1 text="Pago Simulado" />
-          <div className="space-y-4 mt-4">
-            <InputField id="nombreCliente" name="nombreCliente" value={formData.nombreCliente} onChange={handleChange} type="text" label="Nombre" placeholder="Nombre Completo" required />
-            <InputField id="emailCliente" name="emailCliente" value={formData.emailCliente} onChange={handleChange} type="email" label="Email" placeholder="correo@ejemplo.com" required />
-            <InputField id="monto" name="monto" value={formData.monto} onChange={handleChange} type="number" label="Monto" placeholder="0.00" min="0" step="0.01" required />
-            <Button onClick={handleSubmit} variant="wine" className="w-full">Enviar</Button>
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <form onSubmit={onSubmit} className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Fake Payment Example</h2>
 
-          {datosEnviados && (
-            <div className="mt-6 text-center">
-              <p className="text-green-700 font-semibold">Datos enviados correctamente.</p>
-              <Button onClick={handleFakePayment} variant="wine" className="mt-4 w-full">Simular Pago</Button>
-              <Button onClick={limpiarFormulario} variant="outline-wine" className="mt-2 w-full">Volver al carrito</Button>
+        {["nombreCliente", "emailCliente", "monto"].map((field) => {
+          const label = field === "monto" ? "Monto" : field === "emailCliente" ? "Email del Cliente" : "Nombre del Cliente";
+          return (
+            <div key={field} className="mb-4">
+              <label className="block text-sm font-medium mb-1">{label} *</label>
+              <input
+                name={field}
+                type={field === "monto" ? "number" : "text"}
+                value={form[field]}
+                onChange={handleChange}
+                required
+                className="w-full border-b-2 border-gray-300 focus:border-black transition py-2 px-1"
+              />
             </div>
-          )}
-        </div>
-      </div>
-    </>
-  );
-};
+          );
+        })}
 
-export default FormPaymentFake;
+        {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+
+        <button
+          type="submit"
+          className="w-full bg-black text-white py-2 rounded-full hover:bg-gray-800 transition"
+        >
+          Procesar Pago Fake
+        </button>s
+      </form>
+    </div>
+  );
+}

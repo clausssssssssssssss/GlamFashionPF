@@ -14,6 +14,9 @@ import passwordRecoveryRoutes from "./routes/passwordRecovery.js";
 import adminAuthRoutes from "./routes/adminAuth.js";
 import suppliersRoutes from "./routes/suppliers.js";
 import paymenthMethod from "./routes/payment.js";
+import cartRoutes from "./routes/cart.js";
+import tokenRoutes from "./routes/token.js";
+
 
 // Inicializar app
 const app = express();
@@ -48,5 +51,9 @@ app.use("/api/admins", adminAuthRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/suppliers", suppliersRoutes);
 app.use("/api/payment", paymenthMethod);
+app.use("/api/cart", cartRoutes);
+app.use("/api/token", tokenRoutes);
+
+
 
 export default app;

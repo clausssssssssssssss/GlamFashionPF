@@ -22,6 +22,9 @@ import Skirts from "./pages/Skirts";
 import Pants from "./pages/Pants";
 import Shirts from "./pages/Shirts";
 import ProductDetail from "./pages/ProductDetail";
+import RecuperarContraseña1 from "./pages/RecuperarContraseña1";
+import RecuperarContraseña2 from "./pages/RecuperarContraseña2";
+import RecuperarContraseña3 from "./pages/RecuperarContraseña3";
 
 function App() {
   return (
@@ -37,6 +40,9 @@ function App() {
         <Route path="/Vestidos" element={<Vestidos />} />
         <Route path="/QuienesSomos" element={<QuienesSomos />} />
         <Route path="/Terminosycondiciones" element={<Terminosycondiciones />} />
+        <Route path="/RecuperarContraseña1" element={<RecuperarContraseña1 />} />
+        <Route path="/RecuperarContraseña2" element={<RecuperarContraseña2 />} />
+        <Route path="/RecuperarContraseña3" element={<RecuperarContraseña3 />} />
         <Route path="/Carritodecompras" element={<CarritoDeCompras />} />
         <Route path="/FormPayment" element={<Payment />} />
         <Route path="/FormPaymentFake" element={<PaymentFake />} />
